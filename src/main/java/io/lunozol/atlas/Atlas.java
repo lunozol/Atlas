@@ -1,14 +1,18 @@
 package io.lunozol.atlas;
 
+import io.github.nevalackin.radbus.PubSub;
+import io.lunozol.atlas.system.event.Event;
 import io.lunozol.atlas.system.module.ModuleManager;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 
-import java.awt.*;
+import java.awt.Color;
+
 
 public class Atlas {
-    public static Atlas instance;
-    public ModuleManager moduleManager = new ModuleManager();
+    private static Atlas instance;
+    private ModuleManager moduleManager = new ModuleManager();
+    private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
     public final Minecraft mc = Minecraft.getMinecraft();
 
     public static final String name = "Atlas", version = "October 4th 2026";
@@ -26,5 +30,13 @@ public class Atlas {
         if (instance == null) instance = new Atlas();
 
         return instance;
+    }
+
+    public PubSub<Event> getEventBus() {
+        return eventBus;
+    }
+
+    public ModuleManager getModuleManager() {
+        return moduleManager;
     }
 }

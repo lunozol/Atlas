@@ -37,6 +37,7 @@ import java.util.concurrent.FutureTask;
 import javax.imageio.ImageIO;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.game.GameLoopEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -971,6 +972,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
     private void runGameLoop() throws IOException
     {
+        Atlas.getInstance().getEventBus().publish(new GameLoopEvent());
         long i = System.nanoTime();
         this.mcProfiler.startSection("root");
 

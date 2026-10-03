@@ -19,7 +19,20 @@ public abstract class Module {
     }
 
     public void setEnabled(boolean state) {
-        isEnabled = state;
+        if (this.isEnabled != state) {
+            this.isEnabled = state;
+            if (state) {
+                onEnable();
+                Atlas.getInstance().getEventBus().subscribe(this);
+            } else {
+                Atlas.getInstance().getEventBus().unsubscribe(this);
+                onDisable();
+            }
+        }
+    }
+
+    public void toggle() {
+        setEnabled(!isEnabled);
     }
 
     public String getName() {
@@ -33,4 +46,10 @@ public abstract class Module {
     public ModuleCategory getCategory() {
         return category;
     }
+
+    public void onEnable(){}
+
+    public void onDisable(){}
+
+
 }
