@@ -1,5 +1,6 @@
 package io.lunozol.atlas.system.module;
 
+import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
 import io.lunozol.atlas.system.module.modules.visual.WatermarkModule;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ public class ModuleManager {
 
     public void init() {
         modules.add(new WatermarkModule());
+        modules.add(new AutoClickerModule());
     }
 
     public List<Module> getModules() {
