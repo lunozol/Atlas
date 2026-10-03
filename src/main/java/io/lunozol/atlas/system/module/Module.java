@@ -1,6 +1,10 @@
 package io.lunozol.atlas.system.module;
 
+import io.lunozol.atlas.Atlas;
+import net.minecraft.client.Minecraft;
+
 public abstract class Module {
+    public static final Minecraft mc = Atlas.getInstance().mc;
     private String name;
     private String description;
     private ModuleCategory category;
