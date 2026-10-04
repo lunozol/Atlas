@@ -31,6 +31,7 @@ public class ModePanel extends PanelProperty {
 
     public void draw(float mouseX, float mouseY, int x, int y, int width, int height) {
         if (!Mouse.isButtonDown(0)) hasClicked = false;
+        if (Arrays.stream(property.getValues()).count() < 2) expanded = false;
 
         drawBase(property.getName(), x, y, width, expanded ? expandedHeight : height);
 
