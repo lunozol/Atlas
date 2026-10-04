@@ -46,7 +46,7 @@ public abstract class Module implements GameAccessor {
     }
 
     public void toggle() {
-        setEnabled(enabled);
+        setEnabled(!enabled);
     }
 
     public void onEnable(){}

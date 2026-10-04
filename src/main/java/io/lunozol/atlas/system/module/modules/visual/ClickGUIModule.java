@@ -19,5 +19,7 @@ public class ClickGUIModule extends Module {
         if (mc.currentScreen == null) {
             mc.currentScreen = clickGUIScreen;
         }
+
+        super.toggle();
     }
 }
