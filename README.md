@@ -1,7 +1,7 @@
 # Atlas
 This is a hobby project to learn Minecraft 1.8.9 since I've always been interested in 1.8.9 clients!
 I am not very good at Java (I know the basic stuff) nor do I understand how most things in Minecraft work. Therefore I rely on AI and tutorials to help me. I don't use AI to write the whole client because I feel that ruins the point of why I'm making this.
-I use radbus as my event bus (I'&l link when I can)
+I use radbus as my event bus (I'll link when I can)
 
 The base I used:
 
