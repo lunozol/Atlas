@@ -1,18 +1,17 @@
 package io.lunozol.atlas.system.module;
 
 import io.lunozol.atlas.Atlas;
-import io.lunozol.atlas.GameAccessor;
+import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.module.property.Property;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public abstract class Module implements GameAccessor {
+public abstract class Module implements Constants {
     private List<Property> settings = new ArrayList<>();
     private String name;
     private String description;

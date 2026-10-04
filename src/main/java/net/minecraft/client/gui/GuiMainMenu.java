@@ -11,6 +11,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import io.lunozol.atlas.Atlas;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -565,7 +567,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         GlStateManager.scale(f, f, f);
         this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
         GlStateManager.popMatrix();
-        String s = "Minecraft 1.8.9";
+
+        String s = "Minecraft 1.8.9 | " + Atlas.name + " " + Atlas.version;
 
         if (this.mc.isDemo())
         {
@@ -594,7 +597,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         }
         else
         {
-            this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
+            this.drawString(this.fontRendererObj, s, 2, this.height - 10, Atlas.waveColor);
         }
 
         String s2 = "Copyright Mojang AB. Do not distribute!";

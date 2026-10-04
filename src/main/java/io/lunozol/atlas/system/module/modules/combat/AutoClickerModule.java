@@ -10,6 +10,7 @@ import org.lwjgl.input.Mouse;
 
 import java.util.concurrent.ThreadLocalRandom;
 
+// made from the first ever autoclicker i made its not very good and flags anticheats that check deviation (is that what its called?)
 public class AutoClickerModule extends Module {
     long lastClick;
     long cps = 50;

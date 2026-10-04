@@ -346,6 +346,7 @@ public class ItemRenderer
                         case BLOCK:
                             this.transformFirstPersonItem(0.0f, f1);
                             GlStateManager.translate(0,0.167,0);
+                            GlStateManager.scale(0.9,0.9,0.9);
                             this.doBlockTransformations();
                             break;
 

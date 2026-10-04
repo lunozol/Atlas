@@ -194,7 +194,7 @@ import org.lwjgl.util.glu.GLU;
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
     private static final Logger logger = LogManager.getLogger();
-    private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
+    private static final ResourceLocation locationMojangPng = new ResourceLocation("atlas/loading.png");
     public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
     public static byte[] memoryReserve = new byte[10485760];
     private static final List<DisplayMode> macDisplayModes = Lists.newArrayList(new DisplayMode[] {new DisplayMode(2560, 1600), new DisplayMode(2880, 1800)});
@@ -833,7 +833,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         InputStream inputstream = null;
 
         try
-        {
+        {;
             inputstream = this.mcDefaultResourcePack.getInputStream(locationMojangPng);
             this.mojangLogo = textureManagerInstance.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
             textureManagerInstance.bindTexture(this.mojangLogo);
@@ -976,6 +976,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void runGameLoop() throws IOException
     {
         Atlas.getInstance().getEventBus().publish(new GameLoopEvent());
+        Atlas.updateColor();
+
         long i = System.nanoTime();
         this.mcProfiler.startSection("root");
 
@@ -1394,7 +1396,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
     }
 
-    private void clickMouse()
+    public void clickMouse()
     {
         if (this.leftClickCounter <= 0)
         {

@@ -5,13 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter
+@Setter
 public class ModeProperty extends Property {
-    private String name;
-    private String description;
-    @Setter
+    private final String name;
+    private final String description;
     private String value;
-    @Setter
     private String[] values;
+    private boolean hidden;
 
     public ModeProperty(String name, String description, String defaultValue, String... values) {
         this.name = name;
@@ -21,14 +21,7 @@ public class ModeProperty extends Property {
     }
 
     @Override
-    public String getName() {
-        return this.name;
+    public void require(boolean requirement) {
+        hidden = !requirement;
     }
-
-    @Override
-    public String getDescription() {
-        return this.description;
-    }
-
-
 }

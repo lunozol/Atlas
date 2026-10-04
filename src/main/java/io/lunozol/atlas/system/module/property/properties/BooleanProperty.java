@@ -1,31 +1,29 @@
 package io.lunozol.atlas.system.module.property.properties;
 
 import io.lunozol.atlas.system.module.property.Property;
+import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 public class BooleanProperty extends Property {
-    private String name;
-    private String description;
-    @Setter
-    private boolean value;
+    private final String name;
+    private final String description;
+    private boolean enabled;
+    private boolean hidden;
 
     public BooleanProperty(String name, String description, boolean defaultValue) {
         this.name = name;
         this.description = description;
-        this.value = defaultValue;
-    }
-
-    public boolean getValue() {
-        return value;
+        this.enabled = defaultValue;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public void require(boolean requirement) {
+        hidden = !requirement;
     }
 
-    @Override
-    public String getDescription() {
-        return description;
+    public void toggle() {
+        setEnabled(!enabled);
     }
 }

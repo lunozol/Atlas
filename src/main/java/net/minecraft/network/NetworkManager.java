@@ -2,6 +2,8 @@ package net.minecraft.network;
 
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.packet.ReceivePacketEvent;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelException;
@@ -141,6 +143,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         {
             try
             {
+                ReceivePacketEvent receivePacketEvent = new ReceivePacketEvent(p_channelRead0_2_, this.getNetHandler(), this.direction);
+                Atlas.getInstance().getEventBus().publish(receivePacketEvent);
+
+                if (receivePacketEvent.isCancelled()) {
+                    return;
+                }
+
                 p_channelRead0_2_.processPacket(this.packetListener);
             }
             catch (ThreadQuickExitException var4)
