@@ -3,6 +3,7 @@ package io.lunozol.atlas.system.module;
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.game.KeyEvent;
 import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
+import io.lunozol.atlas.system.module.modules.visual.ClickGUIModule;
 import io.lunozol.atlas.system.module.modules.visual.WatermarkModule;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class ModuleManager {
     public void init() {
         modules.add(new WatermarkModule());
         modules.add(new AutoClickerModule());
+        modules.add(new ClickGUIModule());
     }
 
     public List<Module> getModules() {

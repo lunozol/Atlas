@@ -14,12 +14,7 @@ public class ClickGUIModule extends Module {
 
     @Override
     public void onEnable() {
-        ClickGUIScreen clickGUIScreen = new ClickGUIScreen();
-
-        if (mc.currentScreen == null) {
-            mc.currentScreen = clickGUIScreen;
-        }
-
+        mc.displayGuiScreen(new ClickGUIScreen());
         super.toggle();
     }
 }
