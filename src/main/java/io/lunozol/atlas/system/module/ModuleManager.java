@@ -3,6 +3,7 @@ package io.lunozol.atlas.system.module;
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.game.KeyEvent;
 import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
+import io.lunozol.atlas.system.module.modules.player.DelayRemover;
 import io.lunozol.atlas.system.module.modules.visual.ClickGUIModule;
 import io.lunozol.atlas.system.module.modules.visual.WatermarkModule;
 
@@ -17,6 +18,7 @@ public class ModuleManager {
         modules.add(new WatermarkModule());
         modules.add(new AutoClickerModule());
         modules.add(new ClickGUIModule());
+        modules.add(new DelayRemover());
     }
 
     public List<Module> getModules() {

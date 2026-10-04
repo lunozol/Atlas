@@ -8,6 +8,7 @@ import lombok.Setter;
 import net.minecraft.client.Minecraft;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -41,8 +42,8 @@ public abstract class Module implements GameAccessor {
         }
     }
 
-    public void registerSettings(Property property) {
-        settings.add(property);
+    public void registerSettings(Property... property) {
+        settings.addAll(Arrays.asList(property));
     }
 
     public void toggle() {

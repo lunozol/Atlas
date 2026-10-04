@@ -15,8 +15,8 @@ public class Atlas implements GameAccessor {
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     public static final String name = "Atlas", version = "October 4th 2026";
-    public static Color firstColor = new Color(85, 226, 233); // Ocean Blue
-    public static Color secondColor = new Color(5, 152, 98); // some light green color
+    public static Color firstColor = new Color(66, 223, 253); // Ocean Blue
+    public static Color secondColor = new Color(161, 251, 169); // some light green color
 
     public void init() {
         Display.setTitle(name + " " + version);
