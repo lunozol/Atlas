@@ -34,10 +34,13 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.stream.Collectors;
 import javax.imageio.ImageIO;
 
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.event.events.game.GameLoopEvent;
+import io.lunozol.atlas.system.event.events.game.KeyEvent;
+import io.lunozol.atlas.system.module.Module;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -1767,6 +1770,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     KeyBinding.onTick(k);
                 }
 
+                Atlas.getInstance().getEventBus().subscribe(new KeyEvent(k));
+
                 if (this.debugCrashKeyPressTime > 0L)
                 {
                     if (getSystemTime() - this.debugCrashKeyPressTime >= 6000L)
@@ -1799,6 +1804,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     }
                     else
                     {
+                        Atlas.getInstance().getModuleManager().onKey(k);
                         if (k == 1)
                         {
                             this.displayInGameMenu();

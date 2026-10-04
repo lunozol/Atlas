@@ -6,6 +6,9 @@ import com.google.common.collect.Lists;
 import java.util.Collection;
 import java.util.List;
 import java.util.Random;
+
+import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -99,6 +102,7 @@ public class GuiIngame extends Gui
         ScaledResolution scaledresolution = new ScaledResolution(this.mc);
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
+
         this.mc.entityRenderer.setupOverlayRendering();
         GlStateManager.enableBlend();
 
@@ -330,6 +334,8 @@ public class GuiIngame extends Gui
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         GlStateManager.disableLighting();
         GlStateManager.enableAlpha();
+
+        Atlas.getInstance().getEventBus().publish(new Render2DEvent(scaledresolution, partialTicks));
     }
 
     protected void renderTooltip(ScaledResolution sr, float partialTicks)

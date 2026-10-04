@@ -1,5 +1,7 @@
 package io.lunozol.atlas.system.module;
 
+import io.github.nevalackin.radbus.Listen;
+import io.lunozol.atlas.system.event.events.game.KeyEvent;
 import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
 import io.lunozol.atlas.system.module.modules.visual.WatermarkModule;
 
@@ -21,5 +23,15 @@ public class ModuleManager {
 
     public List<Module> getEnabledModules() {
         return modules.stream().filter(Module::isEnabled).collect(Collectors.toList());
+    }
+
+    public void onKey(int key) {
+        for (Module module : modules) {
+            if (module.getKeybind() == key) {
+                module.toggle();
+                System.out.println("toggled " + module.getName() + " to" + module.isEnabled());
+            }
+
+        }
     }
 }

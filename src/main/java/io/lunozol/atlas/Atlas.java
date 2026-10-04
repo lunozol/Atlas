@@ -17,12 +17,14 @@ public class Atlas {
 
     public static final String name = "Atlas", version = "October 4th 2026";
 
-    public static Color color = Color.green;
+    public static Color firstColor = new Color(85, 226, 233); // Ocean Blue
+    public static Color secondColor = new Color(5, 152, 98); // some light green color
 
     public void init() {
         Display.setTitle(name + " " + version);
 
         moduleManager.init();
+//        eventBus.subscribe(moduleManager); dont need this anymore but ill keep it here
         System.out.println("Initialised Atlas " + moduleManager.getModules().size() + " modules loaded");
     }
 
