@@ -1,10 +1,12 @@
 package io.lunozol.atlas.system.module.property.properties;
 
 import io.lunozol.atlas.system.module.property.Property;
+import lombok.Setter;
 
 public class BooleanProperty extends Property {
     private String name;
     private String description;
+    @Setter
     private boolean value;
 
     public BooleanProperty(String name, String description, boolean defaultValue) {
@@ -15,10 +17,6 @@ public class BooleanProperty extends Property {
 
     public boolean getValue() {
         return value;
-    }
-
-    public void setValue(boolean state) {
-        this.value = state;
     }
 
     @Override

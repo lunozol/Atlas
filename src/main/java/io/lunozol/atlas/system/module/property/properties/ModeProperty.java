@@ -1,11 +1,16 @@
 package io.lunozol.atlas.system.module.property.properties;
 
 import io.lunozol.atlas.system.module.property.Property;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
 public class ModeProperty extends Property {
     private String name;
     private String description;
+    @Setter
     private String value;
+    @Setter
     private String[] values;
 
     public ModeProperty(String name, String description, String defaultValue, String... values) {
@@ -13,14 +18,6 @@ public class ModeProperty extends Property {
         this.description = description;
         this.value = defaultValue;
         this.values = values;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public void setValue(String value) {
-        this.value = value;
     }
 
     @Override
@@ -31,10 +28,6 @@ public class ModeProperty extends Property {
     @Override
     public String getDescription() {
         return this.description;
-    }
-
-    public String[] getValues() {
-        return values;
     }
 
 
