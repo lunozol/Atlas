@@ -17,6 +17,8 @@ public class DelayRemover extends Module {
 
     @Listen
     public void onGameLoop(GameLoopEvent event) {
+        if (mc.thePlayer == null) return;
+
         if (right.isEnabled()) mc.rightClickDelayTimer = 0;
         if (left.isEnabled()) mc.leftClickCounter = 0;
         if (jump.isEnabled()) mc.thePlayer.jumpTicks = 0;
