@@ -1,6 +1,8 @@
 package io.lunozol.atlas.system.event.events.game;
 
-public class KeyEvent {
+import io.lunozol.atlas.system.event.Event;
+
+public class KeyEvent extends Event {
     private int key;
 
     public KeyEvent(int key) {

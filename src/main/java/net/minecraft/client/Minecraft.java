@@ -1774,7 +1774,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     KeyBinding.onTick(k);
                 }
 
-                Atlas.getInstance().getEventBus().subscribe(new KeyEvent(k));
+                Atlas.getInstance().getEventBus().publish(new KeyEvent(k));
 
                 if (this.debugCrashKeyPressTime > 0L)
                 {

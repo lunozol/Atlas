@@ -1,6 +1,8 @@
 package io.lunozol.atlas.ui.clickgui;
 
+import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.game.KeyEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
 import io.lunozol.atlas.system.module.ModuleManager;
@@ -10,12 +12,15 @@ import io.lunozol.atlas.system.module.property.properties.ModeProperty;
 import io.lunozol.atlas.ui.clickgui.property.PanelProperty;
 import io.lunozol.atlas.ui.clickgui.property.properties.BooleanPanel;
 import io.lunozol.atlas.ui.clickgui.property.properties.ModePanel;
+import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -25,8 +30,12 @@ import java.util.stream.Collectors;
 public class ClickGUIScreen extends GuiScreen {
     private final Map<Module, List<PanelProperty>> settings = new HashMap<>();
     private List<Module> opened = new ArrayList<>();
+    private Module listeningModule;
+    private int key = 0;
     private boolean hasLeftClicked;
     private boolean hasRightClicked;
+    private boolean hasMiddleClicked;
+    private final int INACTIVE = 914230131;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -50,6 +59,7 @@ public class ClickGUIScreen extends GuiScreen {
 
         if (!Mouse.isButtonDown(0)) hasLeftClicked = false;
         if (!Mouse.isButtonDown(1)) hasRightClicked = false;
+        if (!Mouse.isButtonDown(2)) hasMiddleClicked = false;
 
         int panelWidth = 135;
         int cHeight = 20;
@@ -72,8 +82,16 @@ public class ClickGUIScreen extends GuiScreen {
                 for (Module module : Atlas.getInstance().getModuleManager().getModules().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList())) {
                     if (RenderUtils.hovered(mouseX, mouseY, x, mY, panelWidth, moduleHeight)) {
                         RenderUtils.rect(x, mY, panelWidth, moduleHeight, new Color(50, 50, 50, 190));
+                        if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && handleLeftClick()) {
+                            ChatUtil.send("a");
+                            listeningModule = module;
+                        }
                     } else {
                         RenderUtils.rect(x, mY, panelWidth, moduleHeight, new Color(20, 20, 20, 190));
+                    }
+                    String name = module.getName();
+                    if (listeningModule != null && listeningModule == module) {
+                        name = "...";
                     }
 
                     handleAction(mouseX, mouseY, x, mY, panelWidth, moduleHeight, module);
@@ -81,7 +99,7 @@ public class ClickGUIScreen extends GuiScreen {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(x + ((float) panelWidth / 2), mY + ((float) cHeight / 4), 1);
                     GlStateManager.scale(1.25, 1.25, 1);
-                    mc.fontRendererObj.drawString(module.getName(), -mc.fontRendererObj.getStringWidth(module.getName()) / 2, -mc.fontRendererObj.FONT_HEIGHT / 2 + padding, module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
+                    mc.fontRendererObj.drawString(name, -mc.fontRendererObj.getStringWidth(name) / 2, -mc.fontRendererObj.FONT_HEIGHT / 2 + padding, module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
                     GlStateManager.popMatrix();
 
                     int sY = mY + moduleHeight;
@@ -115,7 +133,6 @@ public class ClickGUIScreen extends GuiScreen {
 
                     mY += moduleHeight + (opened.contains(module) ? sY - (mY + moduleHeight) : 0);
                 }
-
 
                 x += panelWidth + padding;
             }
@@ -157,6 +174,30 @@ public class ClickGUIScreen extends GuiScreen {
             return true;
         }
         return false;
+    }
+
+    private boolean handleMiddleClick() {
+        if (Mouse.isButtonDown(2) && !hasMiddleClicked) {
+            hasMiddleClicked = true;
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void keyTyped(char typedChar, int keyCode) throws IOException {
+        // written by gemini sorry it had a better way and i agreed
+        if (listeningModule != null) {
+            if (keyCode == Keyboard.KEY_ESCAPE || keyCode == Keyboard.KEY_DELETE) {
+                listeningModule.setKeybind(0);
+            } else {
+                listeningModule.setKeybind(keyCode);
+            }
+            listeningModule = null;
+            return;
+        }
+
+        super.keyTyped(typedChar, keyCode);
     }
 
 }

@@ -1,6 +1,7 @@
 package io.lunozol.atlas.system.module.modules.visual;
 
 import io.github.nevalackin.radbus.Listen;
+import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.event.events.packet.ReceivePacketEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
@@ -10,7 +11,6 @@ import net.minecraft.network.play.server.S2EPacketCloseWindow;
 import org.lwjgl.input.Keyboard;
 
 public class ClickGUIModule extends Module {
-    private ClickGUIScreen clickGUIScreen = new ClickGUIScreen();
 
     public ClickGUIModule() {
         super("ClickGUI", "Sets the current Minecraft screen to the ClickGUI Screen", ModuleCategory.VISUAL);
@@ -19,7 +19,7 @@ public class ClickGUIModule extends Module {
 
     @Override
     public void onEnable() {
-        mc.displayGuiScreen(clickGUIScreen);
+        mc.displayGuiScreen(Atlas.getInstance().getClickGUIScreen());
     }
 
     @Listen
@@ -28,7 +28,7 @@ public class ClickGUIModule extends Module {
             event.cancel();
         }
 
-        if (mc.currentScreen != clickGUIScreen) {
+        if (mc.currentScreen != Atlas.getInstance().getClickGUIScreen()) {
             super.toggle();
         }
     }
