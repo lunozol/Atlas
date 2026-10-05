@@ -7,7 +7,12 @@ import io.lunozol.atlas.utils.game.ChatUtil;
 
 public class DebugUtil {
     static Module debugModule = Atlas.getInstance().getModuleManager().getModule(DebugModule.class);
-    public static void a() {
-        ChatUtil.send(debugModule.getDescription());
+
+    public static void check() {
+        if (debugModule == null)  {
+            System.out.println("bro this shit doesnt work");
+        } else {
+            System.out.println("bro");
+        }
     }
 }
