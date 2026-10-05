@@ -27,7 +27,6 @@ public class ClickGUIScreen extends GuiScreen {
     private List<Module> opened = new ArrayList<>();
     private boolean hasLeftClicked;
     private boolean hasRightClicked;
-    private boolean debug = true;
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -37,7 +36,7 @@ public class ClickGUIScreen extends GuiScreen {
             for (Module module : Atlas.getInstance().getModuleManager().getModules()) {
                 List<PanelProperty> panelList = new ArrayList<>();
 
-                for (Property property : module.getSettings()) {
+                for (Property property : module.getSettings().stream().filter(Property::isHidden).collect(Collectors.toList())) {
                     if (property instanceof BooleanProperty) {
                         panelList.add(new BooleanPanel((BooleanProperty) property));
                     } else if (property instanceof ModeProperty) {
@@ -60,7 +59,7 @@ public class ClickGUIScreen extends GuiScreen {
         int x = 10;
         int y = 50;
         for (ModuleCategory category : ModuleCategory.values()) {
-            if (Atlas.getInstance().getModuleManager().getModulesByCategory(category).size() > 0) {
+            if (!Atlas.getInstance().getModuleManager().getModulesByCategory(category).isEmpty()) {
                 RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.firstColor.darker());
 
                 GlStateManager.pushMatrix();
@@ -89,25 +88,28 @@ public class ClickGUIScreen extends GuiScreen {
                     if (opened.contains(module)) {
                         List<PanelProperty> properties = settings.get(module);
                         for (PanelProperty property : properties) {
-                            property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
-                            if (property instanceof BooleanPanel) {
-                                if (((BooleanPanel) property).isHovered() && handleLeftClick()) {
-                                    ((BooleanPanel) property).getProperty().toggle();
-                                    hasLeftClicked = true;
+                            if (!property.isHidden()) {
+                                property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
+                                if (property instanceof BooleanPanel) {
+                                    if (((BooleanPanel) property).isHovered() && handleLeftClick()) {
+                                        ((BooleanPanel) property).getProperty().toggle();
+                                        hasLeftClicked = true;
+                                    }
                                 }
-                            }
-                            if (property instanceof ModePanel) {
-                                if (((ModePanel) property).isHovered() && handleRightClick()) {
-                                    ((ModePanel) property).setExpanded(!((ModePanel) property).isExpanded());
+                                if (property instanceof ModePanel) {
+                                    if (((ModePanel) property).isHovered() && handleRightClick()) {
+                                        ((ModePanel) property).setExpanded(!((ModePanel) property).isExpanded());
+                                    }
+
+                                    if (((ModePanel) property).isExpanded()) {
+                                        settingHeight = ((ModePanel) property).getHeight();
+                                    }
+                                    hasLeftClicked = ((ModePanel) property).hasClicked || hasLeftClicked;
                                 }
 
-                                if (((ModePanel) property).isExpanded()) {
-                                    settingHeight = ((ModePanel) property).getHeight();
-                                }
-                                hasLeftClicked = ((ModePanel) property).hasClicked || hasLeftClicked;
+                                sY += settingHeight;
+                                settingHeight = 12;
                             }
-
-                            sY += settingHeight;
                         }
                     }
 

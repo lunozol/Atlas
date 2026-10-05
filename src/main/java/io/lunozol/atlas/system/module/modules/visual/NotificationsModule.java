@@ -4,6 +4,7 @@ import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
+import io.lunozol.atlas.system.module.modules.visual.entry.Entry;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.utils.client.DebugUtil;
 import io.lunozol.atlas.utils.game.ChatUtil;
@@ -17,7 +18,7 @@ public class NotificationsModule extends Module {
 
     @Listen
     public void onRender2D(Render2DEvent event) {
-        NotificationEntry.updateNotifications();
+        Entry.updateEntries();
 
         int padding = 4;
 
@@ -34,5 +35,10 @@ public class NotificationsModule extends Module {
             GlStateManager.popMatrix();
             y -= Math.round((entry.getHeight() + padding) - offsetY);
         }
+    }
+
+    @Override
+    public void onEnable() {
+        Entry.getNotificationEntries().clear();
     }
 }

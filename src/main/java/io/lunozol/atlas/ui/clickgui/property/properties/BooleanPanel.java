@@ -40,5 +40,10 @@ public class BooleanPanel extends PanelProperty {
         hovered = RenderUtils.hovered(mouseX, mouseY, x + width - toggleDimensionsBG - padding - (padding / 2), y + (height / 2) - (toggleDimensionsBG / 2), toggleDimensionsBG, toggleDimensionsBG);
     }
 
+    @Override
+    public boolean isHidden() {
+        return property.isHidden();
+    }
+
 
 }

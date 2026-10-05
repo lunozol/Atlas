@@ -10,7 +10,7 @@ public class BooleanProperty extends Property {
     private final String name;
     private final String description;
     private boolean enabled;
-    private boolean hidden;
+    private boolean hidden = false;
 
     public BooleanProperty(String name, String description, boolean defaultValue) {
         this.name = name;

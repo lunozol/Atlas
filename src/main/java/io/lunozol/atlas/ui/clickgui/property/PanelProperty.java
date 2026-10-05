@@ -14,4 +14,6 @@ public abstract class PanelProperty implements Constants {
     }
 
     public abstract void draw(float mouseX, float mouseY, int x, int y, int width, int height);
+
+    public abstract boolean isHidden();
 }

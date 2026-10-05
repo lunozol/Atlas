@@ -5,6 +5,9 @@ import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
+import io.lunozol.atlas.system.module.modules.visual.entry.Entry;
+import io.lunozol.atlas.system.module.modules.visual.entry.entries.ModuleEntry;
+import io.lunozol.atlas.system.module.property.properties.BooleanProperty;
 import io.lunozol.atlas.system.module.property.properties.ModeProperty;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -16,16 +19,20 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 public class InterfaceModule extends Module {
-    private ModeProperty mode = new ModeProperty("Mode", "Modes!", "Classic", "Classic", "Traditional");
+    private final ModeProperty mode = new ModeProperty("Mode", "Modes!", "Classic", "Classic", "Traditional");
+    private final BooleanProperty whiteText = new BooleanProperty("White colored modules", "Uses white text instead of gradient colored text", false);
 
     public InterfaceModule() {
         super("Interface", "About the client!", ModuleCategory.VISUAL);
-        registerSettings(mode);
+        registerSettings(mode, whiteText);
         setEnabled(true);
     }
 
     @Listen
     public void onRender2D(Render2DEvent event) {
+        Entry.updateEntries();
+        whiteText.require(mode.getValue().equals("Classic"));
+
         switch (mode.getValue()) {
             case "Classic":
                 final int color = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), 0);
@@ -39,12 +46,19 @@ public class InterfaceModule extends Module {
                 GlStateManager.scale(1.5,1.5,1);
                 mc.fontRendererObj.drawString(Atlas.version, 2, 14, color2, true);
                 GlStateManager.popMatrix();
+
+                int index = 2;
                 float y = 36;
+                for (ModuleEntry entry : Entry.getModuleEntries().stream().sorted(Comparator.comparingInt(e -> -mc.fontRendererObj.getStringWidth(e.getModule().getName() + (e.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + e.getModule().getSuffix())))).collect(Collectors.toList())) {
+                    int width = mc.fontRendererObj.getStringWidth(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()));
+                    float factor = (float) (1 - entry.getAnimation().getValue());
+                    float offsetX = (width - padding + 3) * factor;
+                    int color3 = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), index);
+                    if (whiteText.isEnabled()) color3 = Color.white.getRGB();
 
-                for (Module module : Atlas.getInstance().getModuleManager().getEnabledModules().stream().sorted(Comparator.comparingInt(m -> -mc.fontRendererObj.getStringWidth(m.getName() + (m.getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + m.getSuffix())))).collect(Collectors.toList())) {
-                    mc.fontRendererObj.drawString(module.getName() + (module.getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + module.getSuffix()), 3, y, Color.white.getRGB(), true);
-
-                    y+= 9;
+                    mc.fontRendererObj.drawString(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()), 3 - offsetX, y, color3, true);
+                    y+= Math.round(9 * entry.getAnimation().getValue());
+                    index++;
                 }
                 break;
             case "Traditional":

@@ -67,6 +67,11 @@ public class ModePanel extends PanelProperty {
         }
     }
 
+    @Override
+    public boolean isHidden() {
+        return property.isHidden();
+    }
+
     public int getHeight() {
         return expanded ? expandedHeight : height;
     }

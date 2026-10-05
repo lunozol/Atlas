@@ -13,10 +13,10 @@ import java.util.List;
 
 @Getter
 public abstract class Module implements Constants {
-    private List<Property> settings = new ArrayList<>();
-    private String name;
-    private String description;
-    private ModuleCategory category;
+    private final List<Property> settings = new ArrayList<>();
+    private final String name;
+    private final String description;
+    private final ModuleCategory category;
     private boolean enabled;
     @Setter
     private int keybind;
@@ -35,11 +35,11 @@ public abstract class Module implements Constants {
             if (state) {
                 onEnable();
                 Atlas.getInstance().getEventBus().subscribe(this);
-                NotificationEntry.registerNotification("Module Enabled", name + " was enabled!");
+                NotificationEntry.registerNotification("Module Enabled", name + " was enabled!", true);
             } else {
                 Atlas.getInstance().getEventBus().unsubscribe(this);
                 onDisable();
-                NotificationEntry.registerNotification("Module Disabled", name + " was disabled!");
+                NotificationEntry.registerNotification("Module Disabled", name + " was disabled!", true);
             }
         }
     }

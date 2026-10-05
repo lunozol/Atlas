@@ -20,7 +20,7 @@ public class NotificationEntry extends Entry {
     private long duration = 5000;
     private boolean done = false;
     private int height = 22;
-    private int width = 125;
+    private int width = 150;
 
     public NotificationEntry(String title, String description) {
         this.title = title;
@@ -40,11 +40,11 @@ public class NotificationEntry extends Entry {
 
 
         if (dWidth >= tWidth) {
-            if (dWidth - padding > width) {
+            if (dWidth + padding > width) {
                 width = dWidth + (padding * 2);
             }
         } else {
-            if (tWidth - padding > width) {
+            if (tWidth + padding > width) {
                 width = tWidth + (padding * 2);
             }
         }
