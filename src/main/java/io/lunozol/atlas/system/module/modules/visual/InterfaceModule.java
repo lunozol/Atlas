@@ -49,7 +49,7 @@ public class InterfaceModule extends Module {
                 break;
             case "Traditional":
                 int width = mc.fontRendererObj.getStringWidth("A");
-                mc.fontRendererObj.drawString("A", 2, 2, Atlas.firstColor.getRGB(), true);
+                mc.fontRendererObj.drawString("A", 2, 2, Atlas.waveColor, true);
                 mc.fontRendererObj.drawString("tlas", 2 + width, 2, Color.white.getRGB(), true);
                 break;
         }
