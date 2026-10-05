@@ -43,10 +43,12 @@ public class ModuleManager implements Constants {
     }
 
     public Module getModule(Class module) {
-        if (modules.stream().anyMatch(m -> m.equals(module))) {
-            modules.get(modules.indexOf(module));
+        for (Module mod : modules) {
+            if (mod.getClass().equals(module)) {
+                return mod;
+            }
         }
-
+        System.out.println("failed");
         return null;
     }
 
