@@ -36,7 +36,7 @@ public class ClickGUIScreen extends GuiScreen {
             for (Module module : Atlas.getInstance().getModuleManager().getModules()) {
                 List<PanelProperty> panelList = new ArrayList<>();
 
-                for (Property property : module.getSettings().stream().filter(Property::isHidden).collect(Collectors.toList())) {
+                for (Property property : module.getSettings()) {
                     if (property instanceof BooleanProperty) {
                         panelList.add(new BooleanPanel((BooleanProperty) property));
                     } else if (property instanceof ModeProperty) {

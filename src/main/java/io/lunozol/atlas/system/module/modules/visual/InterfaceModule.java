@@ -12,7 +12,9 @@ import io.lunozol.atlas.system.module.property.properties.ModeProperty;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.util.Comparator;
@@ -62,9 +64,30 @@ public class InterfaceModule extends Module {
                 }
                 break;
             case "Traditional":
-                int width = mc.fontRendererObj.getStringWidth("A");
+                int tWidth = mc.fontRendererObj.getStringWidth("A");
+                int xPadding = 2;
+                int yPadding = 1;
                 mc.fontRendererObj.drawString("A", 2, 2, Atlas.waveColor, true);
-                mc.fontRendererObj.drawString("tlas", 2 + width, 2, Color.white.getRGB(), true);
+                mc.fontRendererObj.drawString("tlas", 2 + tWidth, 2, Color.white.getRGB(), true);
+                int i = 2;
+                float yDraw = 0;
+                for (ModuleEntry entry : Entry.getModuleEntries().stream().sorted(Comparator.comparingInt(e -> -mc.fontRendererObj.getStringWidth(e.getModule().getName() + (e.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + e.getModule().getSuffix())))).collect(Collectors.toList())) {
+                    int width = mc.fontRendererObj.getStringWidth(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()));
+                    int rectWidth = width + (xPadding * 2);
+                    int rectHeight = mc.fontRendererObj.FONT_HEIGHT + (yPadding * 2);
+                    float factor = (float) (1 - entry.getAnimation().getValue());
+                    float offsetX = (rectWidth + padding) * factor;
+                    float offsetY = (rectHeight) * factor;
+                    int x = event.getScaledResolution().getScaledWidth() - rectWidth + Math.round(offsetX);
+                    int color3 = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), i);
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(x, yDraw - offsetY, 1);
+                    RenderUtils.rect(0, 0, rectWidth, rectHeight, bg);
+                    mc.fontRendererObj.drawString(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()), xPadding, yPadding, color3, true);
+                    GlStateManager.popMatrix();
+                    yDraw = (float) (yDraw + rectHeight * entry.getAnimation().getValue());
+                    i++;
+                }
                 break;
         }
 
