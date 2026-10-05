@@ -1,26 +1,33 @@
 package io.lunozol.atlas.system.module;
 
-import io.github.nevalackin.radbus.Listen;
-import io.lunozol.atlas.system.event.events.game.KeyEvent;
+import io.lunozol.atlas.Constants;
+import io.lunozol.atlas.system.module.modules.client.DebugModule;
 import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
+import io.lunozol.atlas.system.module.modules.combat.KillAuraModule;
 import io.lunozol.atlas.system.module.modules.movement.SprintModule;
 import io.lunozol.atlas.system.module.modules.player.DelayRemover;
 import io.lunozol.atlas.system.module.modules.visual.ClickGUIModule;
-import io.lunozol.atlas.system.module.modules.visual.WatermarkModule;
+import io.lunozol.atlas.system.module.modules.visual.InterfaceModule;
+import io.lunozol.atlas.system.module.modules.visual.NotificationsModule;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class ModuleManager {
+public class ModuleManager implements Constants {
     private List<Module> modules = new ArrayList<>();
 
     public void init() {
-        modules.add(new WatermarkModule());
+        modules.add(new InterfaceModule());
         modules.add(new AutoClickerModule());
         modules.add(new ClickGUIModule());
         modules.add(new DelayRemover());
         modules.add(new SprintModule());
+        modules.add(new KillAuraModule());
+        modules.add(new NotificationsModule());
+        if (debug) {
+            modules.add(new DebugModule());
+        }
     }
 
     public List<Module> getModules() {
@@ -31,13 +38,23 @@ public class ModuleManager {
         return modules.stream().filter(Module::isEnabled).collect(Collectors.toList());
     }
 
+    public List<Module> getModulesByCategory(ModuleCategory category) {
+        return modules.stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList());
+    }
+
+    public Module getModule(Class module) {
+        if (modules.stream().anyMatch(m -> m.equals(module))) {
+            modules.get(modules.indexOf(module));
+        }
+
+        return null;
+    }
+
     public void onKey(int key) {
         for (Module module : modules) {
             if (module.getKeybind() == key) {
                 module.toggle();
-                System.out.println("toggled " + module.getName() + " to" + module.isEnabled());
             }
-
         }
     }
 }

@@ -2,6 +2,7 @@ package io.lunozol.atlas.system.module;
 
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
+import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.system.module.property.Property;
 import lombok.Getter;
 import lombok.Setter;
@@ -34,9 +35,11 @@ public abstract class Module implements Constants {
             if (state) {
                 onEnable();
                 Atlas.getInstance().getEventBus().subscribe(this);
+                NotificationEntry.registerNotification("Module Enabled", name + " was enabled!");
             } else {
                 Atlas.getInstance().getEventBus().unsubscribe(this);
                 onDisable();
+                NotificationEntry.registerNotification("Module Disabled", name + " was disabled!");
             }
         }
     }

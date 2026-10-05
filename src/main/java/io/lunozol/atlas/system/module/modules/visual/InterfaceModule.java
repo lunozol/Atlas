@@ -15,11 +15,11 @@ import java.awt.*;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
-public class WatermarkModule extends Module {
+public class InterfaceModule extends Module {
     private ModeProperty mode = new ModeProperty("Mode", "Modes!", "Classic", "Classic", "Traditional");
 
-    public WatermarkModule() {
-        super("Watermark", "About the client!", ModuleCategory.VISUAL);
+    public InterfaceModule() {
+        super("Interface", "About the client!", ModuleCategory.VISUAL);
         registerSettings(mode);
         setEnabled(true);
     }

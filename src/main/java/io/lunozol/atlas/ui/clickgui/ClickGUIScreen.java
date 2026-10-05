@@ -3,6 +3,7 @@ package io.lunozol.atlas.ui.clickgui;
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
+import io.lunozol.atlas.system.module.ModuleManager;
 import io.lunozol.atlas.system.module.property.Property;
 import io.lunozol.atlas.system.module.property.properties.BooleanProperty;
 import io.lunozol.atlas.system.module.property.properties.ModeProperty;
@@ -59,60 +60,62 @@ public class ClickGUIScreen extends GuiScreen {
         int x = 100;
         int y = 50;
         for (ModuleCategory category : ModuleCategory.values()) {
-            RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.firstColor.darker());
-
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(x + ((float) panelWidth / 2),y + ((float) cHeight / 4),1);
-            GlStateManager.scale(1.5,1.5,1);
-            mc.fontRendererObj.drawString(category.name(), -mc.fontRendererObj.getStringWidth(category.name()) / 2, 0,  Color.white.getRGB());
-            GlStateManager.popMatrix();
-
-            int mY = y + cHeight;
-            for (Module module : Atlas.getInstance().getModuleManager().getModules().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList())) {
-                if (RenderUtils.hovered(mouseX, mouseY, x, mY, panelWidth, moduleHeight)) {
-                    RenderUtils.rect(x,mY, panelWidth, moduleHeight, new Color(50, 50, 50, 190));
-                } else {
-                    RenderUtils.rect(x,mY, panelWidth, moduleHeight, new Color(20, 20, 20, 190));
-                }
-
-                handleAction(mouseX, mouseY, x, mY, panelWidth, moduleHeight, module);
+            if (Atlas.getInstance().getModuleManager().getModulesByCategory(category).size() > 0) {
+                RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.firstColor.darker());
 
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(x + ((float) panelWidth / 2),mY + ((float) cHeight / 4),1);
-                GlStateManager.scale(1.25,1.25,1);
-                mc.fontRendererObj.drawString(module.getName(), -mc.fontRendererObj.getStringWidth(module.getName()) / 2, -mc.fontRendererObj.FONT_HEIGHT / 2 + padding,  module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
+                GlStateManager.translate(x + ((float) panelWidth / 2), y + ((float) cHeight / 4), 1);
+                GlStateManager.scale(1.5, 1.5, 1);
+                mc.fontRendererObj.drawString(category.name(), -mc.fontRendererObj.getStringWidth(category.name()) / 2, 0, Color.white.getRGB());
                 GlStateManager.popMatrix();
 
-                int sY = mY + moduleHeight;
-                if (opened.contains(module)) {
-                    List<PanelProperty> properties = settings.get(module);
-                    for (PanelProperty property : properties) {
-                        property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
-                        if (property instanceof BooleanPanel) {
-                            if (((BooleanPanel) property).isHovered() && handleLeftClick()) {
-                                ((BooleanPanel) property).getProperty().toggle();
-                                hasLeftClicked = true;
-                            }
-                        }
-                        if (property instanceof ModePanel) {
-                            if (((ModePanel) property).isHovered() && handleRightClick()) {
-                                ((ModePanel) property).setExpanded(!((ModePanel) property).isExpanded());
-                            }
-
-                            if (((ModePanel) property).isExpanded()) {
-                                settingHeight = ((ModePanel) property).getHeight();
-                            }
-                        }
-
-                        sY += settingHeight;
+                int mY = y + cHeight;
+                for (Module module : Atlas.getInstance().getModuleManager().getModules().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList())) {
+                    if (RenderUtils.hovered(mouseX, mouseY, x, mY, panelWidth, moduleHeight)) {
+                        RenderUtils.rect(x, mY, panelWidth, moduleHeight, new Color(50, 50, 50, 190));
+                    } else {
+                        RenderUtils.rect(x, mY, panelWidth, moduleHeight, new Color(20, 20, 20, 190));
                     }
+
+                    handleAction(mouseX, mouseY, x, mY, panelWidth, moduleHeight, module);
+
+                    GlStateManager.pushMatrix();
+                    GlStateManager.translate(x + ((float) panelWidth / 2), mY + ((float) cHeight / 4), 1);
+                    GlStateManager.scale(1.25, 1.25, 1);
+                    mc.fontRendererObj.drawString(module.getName(), -mc.fontRendererObj.getStringWidth(module.getName()) / 2, -mc.fontRendererObj.FONT_HEIGHT / 2 + padding, module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
+                    GlStateManager.popMatrix();
+
+                    int sY = mY + moduleHeight;
+                    if (opened.contains(module)) {
+                        List<PanelProperty> properties = settings.get(module);
+                        for (PanelProperty property : properties) {
+                            property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
+                            if (property instanceof BooleanPanel) {
+                                if (((BooleanPanel) property).isHovered() && handleLeftClick()) {
+                                    ((BooleanPanel) property).getProperty().toggle();
+                                    hasLeftClicked = true;
+                                }
+                            }
+                            if (property instanceof ModePanel) {
+                                if (((ModePanel) property).isHovered() && handleRightClick()) {
+                                    ((ModePanel) property).setExpanded(!((ModePanel) property).isExpanded());
+                                }
+
+                                if (((ModePanel) property).isExpanded()) {
+                                    settingHeight = ((ModePanel) property).getHeight();
+                                }
+                            }
+
+                            sY += settingHeight;
+                        }
+                    }
+
+                    mY += moduleHeight + (opened.contains(module) ? sY - (mY + moduleHeight) : 0);
                 }
 
-                mY += moduleHeight + (opened.contains(module) ? sY - (mY + moduleHeight) : 0);
+
+                x += panelWidth + padding;
             }
-
-
-            x += panelWidth + padding;
         }
     }
 

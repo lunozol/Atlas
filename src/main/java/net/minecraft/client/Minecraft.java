@@ -40,6 +40,7 @@ import javax.imageio.ImageIO;
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.event.events.game.GameLoopEvent;
 import io.lunozol.atlas.system.event.events.game.KeyEvent;
+import io.lunozol.atlas.system.event.events.game.TickEvent;
 import io.lunozol.atlas.system.module.Module;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -1690,6 +1691,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     throw new ReportedException(crashreport1);
                 }
             }
+
         }
 
         if (this.currentScreen == null || this.currentScreen.allowUserInput)
@@ -2132,6 +2134,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         this.mcProfiler.endSection();
         this.systemTime = getSystemTime();
+
+        Atlas.getInstance().getEventBus().publish(new TickEvent());
     }
 
     public void launchIntegratedServer(String folderName, String worldName, WorldSettings worldSettingsIn)

@@ -1,9 +1,12 @@
 package io.lunozol.atlas.system.module;
 
-public enum ModuleCategory {
+import io.lunozol.atlas.Constants;
+
+public enum ModuleCategory implements Constants {
     COMBAT,
     MOVEMENT,
     PLAYER,
     VISUAL,
-    EXPLOIT
+    EXPLOIT,
+    CLIENT
 }
