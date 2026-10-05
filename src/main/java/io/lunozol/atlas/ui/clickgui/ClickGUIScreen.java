@@ -83,7 +83,6 @@ public class ClickGUIScreen extends GuiScreen {
                     if (RenderUtils.hovered(mouseX, mouseY, x, mY, panelWidth, moduleHeight)) {
                         RenderUtils.rect(x, mY, panelWidth, moduleHeight, new Color(50, 50, 50, 190));
                         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && handleLeftClick()) {
-                            ChatUtil.send("a");
                             listeningModule = module;
                         }
                     } else {
