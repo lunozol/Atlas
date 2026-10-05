@@ -1,5 +1,6 @@
 package io.lunozol.atlas;
 
+import io.lunozol.atlas.utils.client.DebugUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 

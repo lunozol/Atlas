@@ -39,7 +39,7 @@ public class NotificationEntry extends Entry {
         int dWidth = mc.fontRendererObj.getStringWidth(description);
 
 
-        if (dWidth > tWidth) {
+        if (dWidth >= tWidth) {
             if (dWidth - padding > width) {
                 width = dWidth + (padding * 2);
             }
@@ -49,9 +49,7 @@ public class NotificationEntry extends Entry {
             }
         }
 
-
         anim.run(registerTime + duration > System.currentTimeMillis() ? 1 : 0);
-
 
         RenderUtils.rect(x, y, width, height, bg);
         GlStateManager.pushMatrix();

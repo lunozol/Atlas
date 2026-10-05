@@ -7,12 +7,16 @@ import lombok.Getter;
 
 @Getter
 public class DebugModule extends Module {
-    private final BooleanProperty notifRejects = new BooleanProperty("Notification Rejects", "Controls if it should print notification rejects because of matching info already existing", false);
-    private final BooleanProperty notifRegisters =  new BooleanProperty("Notification Registers", "Controls if it should print notification registers", false);
-    private final BooleanProperty clickGui = new BooleanProperty("ClickGUI Debug", "Controls if it should print debug from clickgui", false);
+    public final BooleanProperty notifRejects = new BooleanProperty("Notification Rejects", "Controls if it should print notification rejects because of matching info already existing", false);
+    public final BooleanProperty notifRegisters =  new BooleanProperty("Notification Registers", "Controls if it should print notification registers", false);
+    public BooleanProperty clickGui = new BooleanProperty("ClickGUI Debug", "Controls if it should print debug from clickgui", false);
 
     public DebugModule() {
         super("Debug", "Debug", ModuleCategory.CLIENT);
         registerSettings(notifRejects, notifRegisters);
+    }
+
+    public boolean canDebugClickGUI() {
+        return clickGui.isEnabled();
     }
 }

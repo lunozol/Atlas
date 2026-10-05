@@ -21,8 +21,7 @@ public class NotificationsModule extends Module {
 
         int padding = 4;
 
-        int y = event.getScaledResolution().getScaledHeight() - 25 - padding;
-        DebugUtil.check();
+        int y = event.getScaledResolution().getScaledHeight() - 22 - padding;
         for (NotificationEntry entry : NotificationEntry.getNotificationEntries()) {
             float factor = 1 - (float) entry.getAnim().getValue();
             float offsetX = (entry.getWidth() + padding) * factor;

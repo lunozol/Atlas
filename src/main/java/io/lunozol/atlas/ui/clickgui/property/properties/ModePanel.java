@@ -22,7 +22,7 @@ public class ModePanel extends PanelProperty {
     private boolean hovered;
     private final int height;
     private int expandedHeight;
-    private boolean hasClicked;
+    public boolean hasClicked;
 
     public ModePanel(ModeProperty property, int height) {
         this.property = property;

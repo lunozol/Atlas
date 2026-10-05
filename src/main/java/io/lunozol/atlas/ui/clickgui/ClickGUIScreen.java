@@ -52,12 +52,12 @@ public class ClickGUIScreen extends GuiScreen {
         if (!Mouse.isButtonDown(0)) hasLeftClicked = false;
         if (!Mouse.isButtonDown(1)) hasRightClicked = false;
 
-        int panelWidth = 150;
+        int panelWidth = 135;
         int cHeight = 20;
         int padding = 2;
         int moduleHeight = 14;
 
-        int x = 100;
+        int x = 10;
         int y = 50;
         for (ModuleCategory category : ModuleCategory.values()) {
             if (Atlas.getInstance().getModuleManager().getModulesByCategory(category).size() > 0) {
@@ -104,6 +104,7 @@ public class ClickGUIScreen extends GuiScreen {
                                 if (((ModePanel) property).isExpanded()) {
                                     settingHeight = ((ModePanel) property).getHeight();
                                 }
+                                hasLeftClicked = ((ModePanel) property).hasClicked || hasLeftClicked;
                             }
 
                             sY += settingHeight;
