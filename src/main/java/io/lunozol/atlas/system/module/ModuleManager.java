@@ -5,9 +5,10 @@ import io.lunozol.atlas.system.module.modules.client.DebugModule;
 import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
 import io.lunozol.atlas.system.module.modules.combat.KillAuraModule;
 import io.lunozol.atlas.system.module.modules.movement.SprintModule;
-import io.lunozol.atlas.system.module.modules.player.DelayRemover;
+import io.lunozol.atlas.system.module.modules.player.DelayRemoverModule;
 import io.lunozol.atlas.system.module.modules.visual.ClickGUIModule;
 import io.lunozol.atlas.system.module.modules.visual.InterfaceModule;
+import io.lunozol.atlas.system.module.modules.visual.ItemRendererModule;
 import io.lunozol.atlas.system.module.modules.visual.NotificationsModule;
 
 import java.util.ArrayList;
@@ -21,10 +22,11 @@ public class ModuleManager implements Constants {
         modules.add(new InterfaceModule());
         modules.add(new AutoClickerModule());
         modules.add(new ClickGUIModule());
-        modules.add(new DelayRemover());
+        modules.add(new DelayRemoverModule());
         modules.add(new SprintModule());
         modules.add(new KillAuraModule());
         modules.add(new NotificationsModule());
+        modules.add(new ItemRendererModule());
         if (debug) {
             modules.add(new DebugModule());
         }

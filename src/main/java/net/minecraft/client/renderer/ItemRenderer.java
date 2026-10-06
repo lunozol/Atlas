@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer;
 
+import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.game.ItemRendererEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -258,7 +260,7 @@ public class ItemRenderer
         GlStateManager.rotate(f3 * 30.0F, 0.0F, 0.0F, 1.0F);
     }
 
-    private void transformFirstPersonItem(float equipProgress, float swingProgress)
+    public void transformFirstPersonItem(float equipProgress, float swingProgress)
     {
         GlStateManager.translate(0.56F, -0.52F, -0.71999997F);
         GlStateManager.translate(0.0F, equipProgress * -0.6F, 0.0F);
@@ -298,7 +300,7 @@ public class ItemRenderer
         GlStateManager.scale(1.0F, 1.0F, 1.0F + f1 * 0.2F);
     }
 
-    private void doBlockTransformations()
+    public void doBlockTransformations()
     {
         GlStateManager.translate(-0.5F, 0.2F, 0.0F);
         GlStateManager.rotate(30.0F, 0.0F, 1.0F, 0.0F);
@@ -344,10 +346,14 @@ public class ItemRenderer
                             break;
 
                         case BLOCK:
-                            this.transformFirstPersonItem(0.0f, f1);
-                            GlStateManager.translate(0,0.167,0);
-                            GlStateManager.scale(0.9,0.9,0.9);
-                            this.doBlockTransformations();
+                            ItemRendererEvent event = new ItemRendererEvent(new ItemRenderer(mc), equippedProgress, f1);
+                            Atlas.getInstance().getEventBus().publish(event);
+
+                            if (!event.isCancelled()) {
+                                this.transformFirstPersonItem(0.0f, f1);
+                                this.doBlockTransformations();
+                            }
+
                             break;
 
                         case BOW:
