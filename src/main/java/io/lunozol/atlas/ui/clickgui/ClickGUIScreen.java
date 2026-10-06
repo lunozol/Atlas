@@ -189,8 +189,10 @@ public class ClickGUIScreen extends GuiScreen {
         if (listeningModule != null) {
             if (keyCode == Keyboard.KEY_ESCAPE || keyCode == Keyboard.KEY_DELETE) {
                 listeningModule.setKeybind(0);
+                ChatUtil.notify("Keybind change", "Cleared keybind of " + listeningModule.getName());
             } else {
                 listeningModule.setKeybind(keyCode);
+                ChatUtil.notify("Keybind change", "Set keybind of " + listeningModule.getName() + " to " + Keyboard.getKeyName(keyCode));
             }
             listeningModule = null;
             return;
