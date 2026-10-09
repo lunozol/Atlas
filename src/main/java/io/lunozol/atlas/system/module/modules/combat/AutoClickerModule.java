@@ -2,6 +2,7 @@ package io.lunozol.atlas.system.module.modules.combat;
 
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.game.GameLoopEvent;
+import io.lunozol.atlas.system.event.events.game.TickEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
 import net.minecraft.client.settings.KeyBinding;
@@ -24,7 +25,7 @@ public class AutoClickerModule extends Module {
     }
 
     @Listen
-    public void onGameLoop(GameLoopEvent event) {
+    public void onTick(TickEvent event) {
         if (Mouse.isButtonDown(0) && mc.thePlayer != null && !mc.thePlayer.isBlocking() && calculateCPS(System.currentTimeMillis()) && mc.currentScreen == null) {
             int key = mc.gameSettings.keyBindAttack.getKeyCode();
 

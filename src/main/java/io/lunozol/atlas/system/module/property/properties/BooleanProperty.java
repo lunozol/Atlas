@@ -26,4 +26,9 @@ public class BooleanProperty extends Property {
     public void toggle() {
         setEnabled(!enabled);
     }
+
+    public boolean isEnabled() {
+        if (hidden) return false;
+        return enabled;
+    }
 }

@@ -6,9 +6,8 @@ import net.minecraft.network.EnumPacketDirection;
 import net.minecraft.network.INetHandler;
 import net.minecraft.network.Packet;
 
-// from sulphide since I really dont know how this works
 @AllArgsConstructor
-public class ReceivePacketEvent extends Event {
+public class SendPacketEvent extends Event {
     public final Packet<?> packet;
     public final INetHandler iNetHandler;
     public final EnumPacketDirection direction;

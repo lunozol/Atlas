@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 public class ModuleEntry extends Entry {
-    private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
+    private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 200);
     private final Module module;
     private boolean done = false;
 
@@ -17,6 +17,12 @@ public class ModuleEntry extends Entry {
     }
 
     public void update() {
+        if (module.isEnabled()) {
+            animation.setEasing(Easing.EASE_OUT_CUBIC);
+        } else {
+            animation.setEasing(Easing.EASE_IN_CUBIC);
+        }
+
         animation.run(module.isEnabled() ? 1 : 0);
 
         if (!module.isEnabled() && animation.getValue() <= 0) done = true;

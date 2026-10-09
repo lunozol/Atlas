@@ -24,14 +24,5 @@ public class KillAuraModule extends Module {
     @Listen
     public void onGameLoop(Render2DEvent event) {
         if (mc.thePlayer == null) return;
-
-        for (Entity entity : mc.theWorld.getLoadedEntityList().stream().filter(e -> mc.thePlayer.getDistanceToEntity(e) < 4 && e instanceof EntityPlayer && e != mc.thePlayer).sorted(Comparator.comparingDouble(e -> -mc.thePlayer.getDistanceToEntity(e))).collect(Collectors.toList())) {
-            System.out.println(entity.getName() + mc.thePlayer.getDistanceToEntity(entity));
-            Vec3 vec32 = new Vec3(mc.thePlayer.posX + mc.thePlayer.motionX, mc.thePlayer.posY + mc.thePlayer.motionY, mc.thePlayer.posZ + mc.thePlayer.motionZ);
-            float f1 = entity.getCollisionBorderSize();
-            AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand((double)f1, (double)f1, (double)f1);
-            MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(entity.getPositionEyes(event.getPartialTicks()), vec32);
-            mc.thePlayer.rotationYaw = movingobjectposition.entityHit.rotationYaw;
-        }
     }
 }
