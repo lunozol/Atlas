@@ -9,6 +9,7 @@ public class SprintModule extends Module {
 
     public SprintModule() {
         super("Sprint", "Sprints for you, all the time...", ModuleCategory.MOVEMENT);
+        setEnabled(true);
     }
 
     @Listen

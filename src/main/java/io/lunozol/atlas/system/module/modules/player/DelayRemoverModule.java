@@ -6,11 +6,11 @@ import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
 import io.lunozol.atlas.system.module.property.properties.BooleanProperty;
 
-public class DelayRemover extends Module {
+public class DelayRemoverModule extends Module {
     private BooleanProperty right = new BooleanProperty("Remove Right Click Delay", "Removes the delay between right clicking", true);
     private BooleanProperty left = new BooleanProperty("Remove Left Click Delay", "Removes the delay between left clicking", true);
     private BooleanProperty jump = new BooleanProperty("Remove Jump Delay", "Removes the delay between jumping", true);
-    public DelayRemover() {
+    public DelayRemoverModule() {
         super("DelayRemover", "Removes delay of certain things", ModuleCategory.PLAYER);
         registerSettings(right, left, jump);
     }
