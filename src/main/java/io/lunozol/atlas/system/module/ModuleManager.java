@@ -10,6 +10,7 @@ import io.lunozol.atlas.system.module.modules.visual.ClickGUIModule;
 import io.lunozol.atlas.system.module.modules.visual.InterfaceModule;
 import io.lunozol.atlas.system.module.modules.visual.ItemRendererModule;
 import io.lunozol.atlas.system.module.modules.visual.NotificationsModule;
+import io.lunozol.atlas.system.module.modules.client.TestModule;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,10 @@ public class ModuleManager implements Constants {
         modules.add(new KillAuraModule());
         modules.add(new NotificationsModule());
         modules.add(new ItemRendererModule());
+
         if (debug) {
             modules.add(new DebugModule());
+            modules.add(new TestModule());
         }
     }
 

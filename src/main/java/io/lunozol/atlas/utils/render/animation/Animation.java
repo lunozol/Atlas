@@ -51,7 +51,7 @@ public class Animation {
     }
 
     public double getDistanceProgress() {
-        return 1 - getProgress();
+        return 1 - (value / destinationValue);
     }
 
     public void reset() {
