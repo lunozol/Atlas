@@ -14,6 +14,9 @@ import io.lunozol.atlas.ui.clickgui.property.properties.BooleanPanel;
 import io.lunozol.atlas.ui.clickgui.property.properties.ModePanel;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
+import io.lunozol.atlas.utils.render.animation.Animation;
+import io.lunozol.atlas.utils.render.animation.Easing;
+import lombok.Setter;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Keyboard;
@@ -28,6 +31,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ClickGUIScreen extends GuiScreen {
+    private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
     private final Map<Module, List<PanelProperty>> settings = new HashMap<>();
     private List<Module> opened = new ArrayList<>();
     private Module listeningModule;
@@ -36,9 +40,23 @@ public class ClickGUIScreen extends GuiScreen {
     private boolean hasRightClicked;
     private boolean hasMiddleClicked;
     private final int INACTIVE = 914230131;
+    @Setter
+    private boolean canClose = false;
+
+    @Override
+    public void initGui() {
+        canClose = false;
+        super.initGui();
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        animation.run(canClose ? 0 : 1);
+
+        if (canClose && animation.getValue() == 0) {
+            close();
+        }
+
         int settingHeight = 12;
 
         if (settings.isEmpty()) {
@@ -68,6 +86,8 @@ public class ClickGUIScreen extends GuiScreen {
 
         int x = 10;
         int y = 50;
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
         for (ModuleCategory category : ModuleCategory.values()) {
             if (!Atlas.getInstance().getModuleManager().getModulesByCategory(category).isEmpty()) {
                 RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.firstColor.darker());
@@ -136,6 +156,7 @@ public class ClickGUIScreen extends GuiScreen {
                 x += panelWidth + padding;
             }
         }
+        GlStateManager.popMatrix();
     }
 
     private void handleAction(float mouseX, float mouseY, int x, int y, int width, int height, Module module) {
@@ -198,7 +219,19 @@ public class ClickGUIScreen extends GuiScreen {
             return;
         }
 
-        super.keyTyped(typedChar, keyCode);
+        if (keyCode == 1)
+        {
+            canClose = true;
+        }
+    }
+
+    private void close() {
+        this.mc.displayGuiScreen((GuiScreen)null);
+
+        if (this.mc.currentScreen == null)
+        {
+            this.mc.setIngameFocus();
+        }
     }
 
 }
