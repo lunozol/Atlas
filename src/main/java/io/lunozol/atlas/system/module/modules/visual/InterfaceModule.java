@@ -42,6 +42,7 @@ public class InterfaceModule extends Module {
                 GlStateManager.translate(0,0,1);
                 GlStateManager.scale(2,2,1);
                 mc.fontRendererObj.drawString(Atlas.name, 2, 2, color, true);
+
                 GlStateManager.popMatrix();
                 final int color2 = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), 1);
                 GlStateManager.pushMatrix();
@@ -69,6 +70,7 @@ public class InterfaceModule extends Module {
                 int yPadding = 1;
                 mc.fontRendererObj.drawString("A", 2, 2, Atlas.waveColor, true);
                 mc.fontRendererObj.drawString("tlas", 2 + tWidth, 2, Color.white.getRGB(), true);
+
                 int i = 2;
                 float yDraw = 0;
                 for (ModuleEntry entry : Entry.getModuleEntries().stream().sorted(Comparator.comparingInt(e -> -mc.fontRendererObj.getStringWidth(e.getModule().getName() + (e.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + e.getModule().getSuffix())))).collect(Collectors.toList())) {
@@ -80,11 +82,13 @@ public class InterfaceModule extends Module {
                     float offsetY = (rectHeight) * factor;
                     int x = event.getScaledResolution().getScaledWidth() - rectWidth + Math.round(offsetX);
                     int color3 = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), i);
+
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(x, yDraw - offsetY, 1);
                     RenderUtils.rect(0, 0, rectWidth, rectHeight, bg);
                     mc.fontRendererObj.drawString(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()), xPadding, yPadding, color3, true);
                     GlStateManager.popMatrix();
+
                     yDraw = (float) (yDraw + rectHeight * entry.getAnimation().getValue());
                     i++;
                 }

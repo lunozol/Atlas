@@ -1,14 +1,21 @@
 package io.lunozol.atlas.utils.render.animation;
 
-// pasted from weedhack
-public class Animation {
+import lombok.Getter;
+import lombok.Setter;
+import net.minecraft.util.MathHelper;
 
+// pasted from weedhack
+@Getter
+public class Animation {
+    @Setter
     private Easing easing;
+    @Setter
     private long duration;
     private long startTime;
 
     private double startValue;
     private double destinationValue;
+    @Setter
     private double value;
     private boolean finished;
 
@@ -18,11 +25,6 @@ public class Animation {
         this.duration = duration;
     }
 
-    /**
-     * Updates the animation by using the easing function and time
-     *
-     * @param destinationValue the value that the animation is going to reach
-     */
     public void run(final double destinationValue) {
         long millis = System.currentTimeMillis();
         if (this.destinationValue != destinationValue) {
@@ -44,41 +46,17 @@ public class Animation {
         }
     }
 
-    /**
-     * Returns the progress of the animation
-     *
-     * @return value between 0 and 1
-     */
     public double getProgress() {
-        return (double) (System.currentTimeMillis() - this.startTime) / (double) this.duration;
+        return MathHelper.clamp_double((double) (System.currentTimeMillis() - this.startTime) / this.duration, 0, 1);
     }
 
-    /**
-     * Resets the animation to the start value
-     */
+    public double getDistanceProgress() {
+        return 1 - getProgress();
+    }
+
     public void reset() {
         this.startTime = System.currentTimeMillis();
         this.startValue = value;
         this.finished = false;
-    }
-
-    public double getValue() {
-        return value;
-    }
-
-    public void setValue(double value) {
-        this.value = value;
-    }
-
-    public boolean isFinished() {
-        return finished;
-    }
-
-    public void setEasing(Easing easing) {
-        this.easing = easing;
-    }
-
-    public void setDuration(long duration) {
-        this.duration = duration;
     }
 }
