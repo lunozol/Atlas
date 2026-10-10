@@ -92,7 +92,7 @@ public class ClickGUIScreen extends GuiScreen {
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(x + ((float) panelWidth / 2), y + ((float) cHeight / 4), 1);
                 GlStateManager.scale(1.5, 1.5, 1);
-                mc.fontRendererObj.drawString(category.name(), -mc.fontRendererObj.getStringWidth(category.name()) / 2, 0, Color.white.getRGB());
+                mc.fontRendererObj.drawStringWithShadow(category.name(), (float) -mc.fontRendererObj.getStringWidth(category.name()) / 2, 0, Color.white.getRGB());
                 GlStateManager.popMatrix();
 
                 int mY = y + cHeight;
@@ -115,7 +115,7 @@ public class ClickGUIScreen extends GuiScreen {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(x + ((float) panelWidth / 2), mY + ((float) cHeight / 4), 1);
                     GlStateManager.scale(1.25, 1.25, 1);
-                    mc.fontRendererObj.drawString(name, -mc.fontRendererObj.getStringWidth(name) / 2, -mc.fontRendererObj.FONT_HEIGHT / 2 + padding, module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
+                    mc.fontRendererObj.drawStringWithShadow(name, (float) -mc.fontRendererObj.getStringWidth(name) / 2, (float) -mc.fontRendererObj.FONT_HEIGHT / 2 + padding, module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
                     GlStateManager.popMatrix();
 
                     int sY = mY + moduleHeight;

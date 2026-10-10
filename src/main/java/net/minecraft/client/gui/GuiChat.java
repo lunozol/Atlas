@@ -3,6 +3,9 @@ package net.minecraft.client.gui;
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.util.List;
+
+import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.ui.widget.WidgetGUI;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
@@ -269,6 +272,8 @@ public class GuiChat extends GuiScreen
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
+
+        WidgetGUI.draw(this.width / 2, 15, mouseX, mouseY);
     }
 
     public void onAutocompleteResponse(String[] p_146406_1_)

@@ -68,8 +68,8 @@ public class InterfaceModule extends Module {
                 int tWidth = mc.fontRendererObj.getStringWidth("A");
                 int xPadding = 2;
                 int yPadding = 1;
-                mc.fontRendererObj.drawString("A", 2, 2, Atlas.waveColor, true);
-                mc.fontRendererObj.drawString("tlas", 2 + tWidth, 2, Color.white.getRGB(), true);
+                mc.fontRendererObj.drawString("A", 4, 4, Atlas.waveColor, true);
+                mc.fontRendererObj.drawString("tlas", 4 + tWidth, 4, Color.white.getRGB(), true);
 
                 int i = 2;
                 float yDraw = 0;

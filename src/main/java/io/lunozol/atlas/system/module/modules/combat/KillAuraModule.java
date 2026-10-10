@@ -15,6 +15,7 @@ import net.minecraft.util.Vec3;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+// TODO finish
 public class KillAuraModule extends Module {
 
     public KillAuraModule() {

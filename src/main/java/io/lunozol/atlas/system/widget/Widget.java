@@ -31,11 +31,11 @@ public class Widget {
             if (state) {
                 onEnable();
                 Atlas.getInstance().getEventBus().subscribe(this);
-                NotificationEntry.registerNotification("Module Enabled", name + " was enabled!", true);
+                NotificationEntry.registerNotification("Widget Enabled", name + " was enabled!", true);
             } else {
                 Atlas.getInstance().getEventBus().unsubscribe(this);
                 onDisable();
-                NotificationEntry.registerNotification("Module Disabled", name + " was disabled!", true);
+                NotificationEntry.registerNotification("Widget Disabled", name + " was disabled!", true);
             }
         }
     }
