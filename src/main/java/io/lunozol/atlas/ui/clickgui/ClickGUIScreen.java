@@ -1,11 +1,8 @@
 package io.lunozol.atlas.ui.clickgui;
 
-import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
-import io.lunozol.atlas.system.event.events.game.KeyEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
-import io.lunozol.atlas.system.module.ModuleManager;
 import io.lunozol.atlas.system.module.property.Property;
 import io.lunozol.atlas.system.module.property.properties.BooleanProperty;
 import io.lunozol.atlas.system.module.property.properties.ModeProperty;
@@ -60,7 +57,7 @@ public class ClickGUIScreen extends GuiScreen {
         int settingHeight = 12;
 
         if (settings.isEmpty()) {
-            for (Module module : Atlas.getInstance().getModuleManager().getModules()) {
+            for (Module module : Atlas.getInstance().getManager().getModules()) {
                 List<PanelProperty> panelList = new ArrayList<>();
 
                 for (Property property : module.getSettings()) {
@@ -89,7 +86,7 @@ public class ClickGUIScreen extends GuiScreen {
         GlStateManager.pushMatrix();
         GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
         for (ModuleCategory category : ModuleCategory.values()) {
-            if (!Atlas.getInstance().getModuleManager().getModulesByCategory(category).isEmpty()) {
+            if (!Atlas.getInstance().getManager().getModulesByCategory(category).isEmpty()) {
                 RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.firstColor.darker());
 
                 GlStateManager.pushMatrix();
@@ -99,7 +96,7 @@ public class ClickGUIScreen extends GuiScreen {
                 GlStateManager.popMatrix();
 
                 int mY = y + cHeight;
-                for (Module module : Atlas.getInstance().getModuleManager().getModules().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList())) {
+                for (Module module : Atlas.getInstance().getManager().getModules().stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList())) {
                     if (RenderUtils.hovered(mouseX, mouseY, x, mY, panelWidth, moduleHeight)) {
                         RenderUtils.rect(x, mY, panelWidth, moduleHeight, new Color(50, 50, 50, 190));
                         if (Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) && handleLeftClick()) {

@@ -3,18 +3,22 @@ package io.lunozol.atlas.system.module.modules.visual;
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.event.events.packet.ReceivePacketEvent;
+import io.lunozol.atlas.system.event.events.packet.SendPacketEvent;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
+import io.lunozol.atlas.system.module.property.properties.BooleanProperty;
 import io.lunozol.atlas.ui.clickgui.ClickGUIScreen;
 import net.minecraft.command.server.CommandPublishLocalServer;
 import net.minecraft.network.play.server.S2EPacketCloseWindow;
 import org.lwjgl.input.Keyboard;
 
 public class ClickGUIModule extends Module {
+    private final BooleanProperty cancelPackets = new BooleanProperty("Cancel Screen Packets", "Makes so it doesnt send a screen open/close packet when the clickgui is opened/closed", false);
 
     public ClickGUIModule() {
         super("ClickGUI", "Sets the current Minecraft screen to the ClickGUI Screen", ModuleCategory.VISUAL);
         setKeybind(Keyboard.KEY_RSHIFT);
+        registerSettings(cancelPackets);
     }
 
     @Override
@@ -32,5 +36,12 @@ public class ClickGUIModule extends Module {
             super.toggle();
         }
     }
+
+//    @Listen
+//    public void onSendPacket(SendPacketEvent event) {
+//        if (cancelPackets.isEnabled()) {
+//            if (event.packet instanceof C)
+//        }
+//    }
 
 }

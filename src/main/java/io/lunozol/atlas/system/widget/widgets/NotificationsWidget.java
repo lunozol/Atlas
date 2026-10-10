@@ -1,21 +1,18 @@
-package io.lunozol.atlas.system.module.modules.visual;
+package io.lunozol.atlas.system.widget.widgets;
 
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
-import io.lunozol.atlas.system.module.Module;
-import io.lunozol.atlas.system.module.ModuleCategory;
 import io.lunozol.atlas.system.module.modules.visual.entry.Entry;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
-import io.lunozol.atlas.utils.client.DebugUtil;
-import io.lunozol.atlas.utils.game.ChatUtil;
+import io.lunozol.atlas.system.widget.Widget;
 import net.minecraft.client.renderer.GlStateManager;
 
 import java.util.ConcurrentModificationException;
 
-public class NotificationsModule extends Module {
+public class NotificationsWidget extends Widget {
 
-    public NotificationsModule() {
-        super("Notifications", "Notifies you!", ModuleCategory.VISUAL);
+    public NotificationsWidget() {
+        super("Notifications", "Notifies you for some stuff");
     }
 
     @Listen

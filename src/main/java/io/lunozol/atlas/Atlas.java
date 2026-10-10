@@ -3,19 +3,17 @@ package io.lunozol.atlas;
 import io.github.nevalackin.radbus.PubSub;
 import io.lunozol.atlas.system.event.Event;
 import io.lunozol.atlas.system.finder.Finder;
-import io.lunozol.atlas.system.module.ModuleManager;
+import io.lunozol.atlas.system.Manager;
 import io.lunozol.atlas.ui.clickgui.ClickGUIScreen;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import lombok.Getter;
 import org.lwjgl.opengl.Display;
 
-import java.awt.Color;
-
 
 public class Atlas implements Constants {
     private static Atlas instance;
     @Getter
-    private  ModuleManager moduleManager = new ModuleManager();
+    private Manager manager = new Manager();
     @Getter
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
     @Getter
@@ -27,9 +25,9 @@ public class Atlas implements Constants {
 
     public void init() {
         Display.setTitle(name + " " + version);
-        moduleManager.init();
+        manager.init();
         finder.init();
-        System.out.println("Initialised Atlas " + moduleManager.getModules().size() + " modules loaded");
+        System.out.println("Initialised Atlas " + manager.getModules().size() + " modules loaded and " + manager.getWidgets().size() + " widgets loaded!");
     }
 
     public static Atlas getInstance() {

@@ -7,10 +7,8 @@ import io.lunozol.atlas.system.module.modules.visual.entry.entries.ModuleEntry;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import lombok.Getter;
-import net.minecraft.client.gui.GuiChat;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public abstract class Entry implements Constants {
@@ -39,7 +37,7 @@ public abstract class Entry implements Constants {
     }
 
     public static void updateEntries() {
-        for (Module module : Atlas.getInstance().getModuleManager().getEnabledModules()) {
+        for (Module module : Atlas.getInstance().getManager().getEnabledModules()) {
             if (moduleEntries.stream().noneMatch(e -> e.getModule().equals(module))) {
                 moduleEntries.add(new ModuleEntry(module));
             }
