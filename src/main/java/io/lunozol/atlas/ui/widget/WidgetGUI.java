@@ -1,8 +1,6 @@
 package io.lunozol.atlas.ui.widget;
 
-import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.widget.Widget;
 import io.lunozol.atlas.ui.button.AtlasButton;
 import io.lunozol.atlas.ui.widget.components.WidgetBox;
 import io.lunozol.atlas.ui.widget.components.subcomponents.WidgetSettings;
@@ -10,8 +8,6 @@ import io.lunozol.atlas.utils.render.animation.Animation;
 import io.lunozol.atlas.utils.render.animation.Easing;
 import net.minecraft.client.renderer.GlStateManager;
 import org.lwjgl.input.Mouse;
-
-import java.util.List;
 
 public class WidgetGUI implements Constants {
     private static final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);

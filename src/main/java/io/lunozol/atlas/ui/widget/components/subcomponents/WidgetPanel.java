@@ -70,4 +70,8 @@ public class WidgetPanel implements Constants {
         return 75;
     }
 
+    public static int getHeight() {
+        return 37;
+    }
+
 }

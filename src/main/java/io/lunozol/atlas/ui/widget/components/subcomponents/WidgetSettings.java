@@ -14,6 +14,6 @@ public class WidgetSettings implements Constants {
     public void draw(int mouseX, int mouseY, int x, int y, int width, int height) {
         int xD = x - (width / 2);
 
-        RenderUtils.rect(xD, y, WidgetPanel.getWidth(), height, bg);
+        RenderUtils.rect(xD, y, WidgetPanel.getWidth(), WidgetPanel.getHeight(), bg);
     }
 }

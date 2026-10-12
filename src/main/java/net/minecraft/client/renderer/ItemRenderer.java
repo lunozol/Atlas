@@ -346,7 +346,7 @@ public class ItemRenderer
                             break;
 
                         case BLOCK:
-                            ItemRendererEvent event = new ItemRendererEvent(new ItemRenderer(mc), equippedProgress, f1);
+                            ItemRendererEvent event = new ItemRendererEvent(this, partialTicks, f,this.prevEquippedProgress, f1);
                             Atlas.getInstance().getEventBus().publish(event);
 
                             if (!event.isCancelled()) {

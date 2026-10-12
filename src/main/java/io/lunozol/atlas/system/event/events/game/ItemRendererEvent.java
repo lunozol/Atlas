@@ -6,9 +6,8 @@ import lombok.Getter;
 import net.minecraft.client.renderer.ItemRenderer;
 
 @AllArgsConstructor
-@Getter
 public class ItemRendererEvent extends Event {
-    private ItemRenderer itemRenderer;
-    private float equipProgress;
-    private float swingProgress;
+    public final ItemRenderer renderer;
+    public final float partialTicks;
+    public float equippedProgress, swingProgress, prevEquippedProgress;
 }

@@ -17,6 +17,7 @@ public class TestAnimation implements Constants {
     @Setter
     private long duration;
     private float value;
+    private long elapsedTime;
     private boolean finished;
     private final boolean round;
 
@@ -29,12 +30,14 @@ public class TestAnimation implements Constants {
     public void run(float destination) {
         dest = destination;
 
-        progress = MathHelper.clamp_float((float) System.currentTimeMillis() / startTime + duration, 0, 1);
+        elapsedTime = System.currentTimeMillis() - startTime;
+        progress = MathHelper.clamp_float((float) elapsedTime / duration, 0, 1);
+        System.out.println("progress " + progress);
         distanceProgress = 1 - progress;
 
         value = round ? Math.round(dest * progress) : dest * progress;
 
-        if (value == dest) {
+        if (value >= dest) {
             finished = true;
         } else {
             finished = false;
