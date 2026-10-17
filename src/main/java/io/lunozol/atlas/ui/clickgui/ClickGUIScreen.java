@@ -17,6 +17,7 @@ import io.lunozol.atlas.utils.render.animation.Easing;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -77,21 +78,28 @@ public class ClickGUIScreen extends GuiScreen {
         if (!Mouse.isButtonDown(1)) hasRightClicked = false;
         if (!Mouse.isButtonDown(2)) hasMiddleClicked = false;
 
+        float factor = (float) (1 - animation.getValue());
+
+
+        RenderUtils.rect(0, 0, width * 2, height * 2, RenderUtils.withAlpha(Atlas.bg, (int) Math.round(100 * animation.getValue())));
+
         int panelWidth = 135;
-        int cHeight = 14;
+        int cHeight = 12;
         int padding = 2;
         int moduleHeight = 14;
 
         int x = 10;
         int y = 50;
+      
         GlStateManager.pushMatrix();
+        GlStateManager.translate(1, 1, 1);
         GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
         for (ModuleCategory category : ModuleCategory.values()) {
             if (!Atlas.getInstance().getManager().getModulesByCategory(category).isEmpty()) {
                 RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.bg.darker().darker());
 
                 GlStateManager.pushMatrix();
-                GlStateManager.translate(x + ((float) panelWidth / 2), y + ((float) cHeight / 4), 1);
+                GlStateManager.translate(x + ((float) panelWidth / 2), y + ((float) cHeight / 4) - 1, 1);
                 mc.fontRendererObj.drawStringWithShadow(RenderUtils.normalizeString(category.name()), (float) -mc.fontRendererObj.getStringWidth(RenderUtils.normalizeString(category.name())) / 2, 0, Color.white.getRGB());
                 GlStateManager.popMatrix();
 

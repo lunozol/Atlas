@@ -89,7 +89,7 @@ public class InterfaceModule extends Module {
                     mc.fontRendererObj.drawString(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()), xPadding, yPadding, color3, true);
                     GlStateManager.popMatrix();
 
-                    yDraw =  (int) Math.round((yDraw + rectHeight * entry.getAnimation().getValue()));
+                    yDraw = (int) Math.round((yDraw + rectHeight * entry.getAnimation().getValue()));
                     i++;
                 }
                 break;
