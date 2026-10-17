@@ -1,6 +1,7 @@
 package io.lunozol.atlas.ui.clickgui;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.ModuleCategory;
 import io.lunozol.atlas.system.module.property.Property;
@@ -77,7 +78,7 @@ public class ClickGUIScreen extends GuiScreen {
         if (!Mouse.isButtonDown(2)) hasMiddleClicked = false;
 
         int panelWidth = 135;
-        int cHeight = 20;
+        int cHeight = 14;
         int padding = 2;
         int moduleHeight = 14;
 
@@ -87,12 +88,11 @@ public class ClickGUIScreen extends GuiScreen {
         GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
         for (ModuleCategory category : ModuleCategory.values()) {
             if (!Atlas.getInstance().getManager().getModulesByCategory(category).isEmpty()) {
-                RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.firstColor.darker());
+                RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.bg.darker().darker());
 
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(x + ((float) panelWidth / 2), y + ((float) cHeight / 4), 1);
-                GlStateManager.scale(1.5, 1.5, 1);
-                mc.fontRendererObj.drawStringWithShadow(category.name(), (float) -mc.fontRendererObj.getStringWidth(category.name()) / 2, 0, Color.white.getRGB());
+                mc.fontRendererObj.drawStringWithShadow(RenderUtils.normalizeString(category.name()), (float) -mc.fontRendererObj.getStringWidth(RenderUtils.normalizeString(category.name())) / 2, 0, Color.white.getRGB());
                 GlStateManager.popMatrix();
 
                 int mY = y + cHeight;
@@ -113,7 +113,7 @@ public class ClickGUIScreen extends GuiScreen {
                     handleAction(mouseX, mouseY, x, mY, panelWidth, moduleHeight, module);
 
                     GlStateManager.pushMatrix();
-                    GlStateManager.translate(x + ((float) panelWidth / 2), mY + ((float) cHeight / 4), 1);
+                    GlStateManager.translate(x + ((float) panelWidth / 2), mY + ((float) cHeight / 4) + padding, 1);
                     GlStateManager.scale(1.25, 1.25, 1);
                     mc.fontRendererObj.drawStringWithShadow(name, (float) -mc.fontRendererObj.getStringWidth(name) / 2, (float) -mc.fontRendererObj.FONT_HEIGHT / 2 + padding, module.isEnabled() ? Atlas.secondColor.getRGB() : Color.WHITE.getRGB());
                     GlStateManager.popMatrix();

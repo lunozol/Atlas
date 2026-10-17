@@ -8,6 +8,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.MathHelper;
 
 import java.awt.*;
+import java.util.Locale;
 
 public class RenderUtils {
 
@@ -103,6 +104,14 @@ public class RenderUtils {
             return current;
         }
         return current < target ? Math.min(current + speed, target) : Math.max(current - speed, target);
+    }
+
+    public static String normalizeString(String input) {
+        String result = "";
+
+        result += input.toUpperCase().charAt(0);
+        result += input.toLowerCase().substring(1, input.length());
+        return result;
     }
 
 

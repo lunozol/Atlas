@@ -72,7 +72,7 @@ public class InterfaceModule extends Module {
                 mc.fontRendererObj.drawString("tlas", 4 + tWidth, 4, Color.white.getRGB(), true);
 
                 int i = 2;
-                float yDraw = 0;
+                int yDraw = 0;
                 for (ModuleEntry entry : Entry.getModuleEntries().stream().sorted(Comparator.comparingInt(e -> -mc.fontRendererObj.getStringWidth(e.getModule().getName() + (e.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + e.getModule().getSuffix())))).collect(Collectors.toList())) {
                     int width = mc.fontRendererObj.getStringWidth(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()));
                     int rectWidth = width + (xPadding * 2);
@@ -84,12 +84,12 @@ public class InterfaceModule extends Module {
                     int color3 = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), i);
 
                     GlStateManager.pushMatrix();
-                    GlStateManager.translate(x, yDraw - offsetY, 1);
-                    RenderUtils.rect(0, 0, rectWidth, rectHeight, bg);
+                    GlStateManager.translate(x, yDraw, 1);
+                    RenderUtils.rect(0, 0, rectWidth, (int) Math.round(rectHeight * entry.getAnimation().getValue()), bg);
                     mc.fontRendererObj.drawString(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()), xPadding, yPadding, color3, true);
                     GlStateManager.popMatrix();
 
-                    yDraw = (float) (yDraw + rectHeight * entry.getAnimation().getValue());
+                    yDraw =  (int) Math.round((yDraw + rectHeight * entry.getAnimation().getValue()));
                     i++;
                 }
                 break;

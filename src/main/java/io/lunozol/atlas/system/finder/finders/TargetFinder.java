@@ -17,6 +17,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class TargetFinder implements Constants {
+    private final List<EntityPlayer> allPlayers = new ArrayList<>();
     private final List<EntityPlayer> playerTargets = new ArrayList<>();
     private final List<EntityPlayer> hoveredTargets = new ArrayList<>();
 
@@ -27,16 +28,22 @@ public class TargetFinder implements Constants {
     public void onTick(TickEvent event) {
         playerTargets.clear();
         hoveredTargets.clear();
+        allPlayers.clear();
 
         if (mc.thePlayer == null || mc.theWorld == null) return;
 
-        for (Entity entity : mc.theWorld.loadedEntityList.stream().filter(e -> e instanceof EntityPlayer && mc.thePlayer.getDistanceToEntity(e) < distanceReq).collect(Collectors.toList())) {
-            if (BotCheckUtil.checkPlayer(entity)) {
-                if (mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit.equals(entity)) {
-                    hoveredTargets.add((EntityPlayer) entity);
-                }
+        for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityPlayer) {
+                allPlayers.add((EntityPlayer) entity);
+                if (mc.thePlayer.getDistanceToEntity(entity) < distanceReq) {
+                    if (BotCheckUtil.checkPlayer(entity)) {
+                        if (mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit.equals(entity)) {
+                            hoveredTargets.add((EntityPlayer) entity);
+                        }
 
-                playerTargets.add((EntityPlayer) entity);
+                        playerTargets.add((EntityPlayer) entity);
+                    }
+                }
             }
         }
     }
