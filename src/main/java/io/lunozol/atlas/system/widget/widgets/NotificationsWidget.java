@@ -21,7 +21,7 @@ public class NotificationsWidget extends Widget {
 
         int padding = 4;
 
-        int y = event.getScaledResolution().getScaledHeight() - 27 - padding;
+        int y = event.getScaledResolution().getScaledHeight() - 26 - padding;
         try {
             for (NotificationEntry entry : NotificationEntry.getNotificationEntries()) {
                 float factor = 1 - (float) entry.getAnim().getValue();
@@ -39,7 +39,6 @@ public class NotificationsWidget extends Widget {
             System.out.println("deleted while iterating?");
         }
     }
-
     @Override
     public void onEnable() {
         Entry.getNotificationEntries().clear();

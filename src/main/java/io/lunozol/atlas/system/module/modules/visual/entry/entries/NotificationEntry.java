@@ -21,7 +21,7 @@ public class NotificationEntry extends Entry {
     private long registerTime;
     private long duration = 5000;
     private boolean done = false;
-    private int height = 27;
+    private int height = 26;
     private int width = 150;
 
     public NotificationEntry(String title, String description) {
@@ -68,8 +68,10 @@ public class NotificationEntry extends Entry {
         mc.fontRendererObj.drawStringWithShadow(description, x + padding, y + padding + 10, Color.white.getRGB());
 
         int barWidth = width - (padding * 2);
+        int barHeight = 2;
         int bar = Math.round(barWidth * (1 - getProgress()));
-        RenderUtils.rect(x + padding, y + height - 2 - padding, barWidth, 2, new Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 255));
-        RenderUtils.rect(x + padding, y + height - 2 - padding, bar, 2, new Color(Atlas.waveColor));
+
+        RenderUtils.rect(x + padding, y + height - barHeight - padding, barWidth, barHeight, new Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 255));
+        RenderUtils.rect(x + padding, y + height - barHeight - padding, bar, barHeight, new Color(Atlas.waveColor));
     }
 }
