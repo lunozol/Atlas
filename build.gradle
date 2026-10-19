@@ -57,5 +57,4 @@ dependencies {
 
     // radbus
     implementation "io.github.nevalackin:radbus:1.0.0"
-
 }

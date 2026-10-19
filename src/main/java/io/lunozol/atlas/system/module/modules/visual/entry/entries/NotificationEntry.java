@@ -69,7 +69,7 @@ public class NotificationEntry extends Entry {
 
         int barWidth = width - (padding * 2);
         int bar = Math.round(barWidth * (1 - getProgress()));
-        RenderUtils.rect(x + padding, y + padding + 20, barWidth, 3, new Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 255));
-        RenderUtils.rect(x + padding, y + height - 3 - padding, bar, 3, new Color(Atlas.waveColor));
+        RenderUtils.rect(x + padding, y + height - 2 - padding, barWidth, 2, new Color(bg.getRed(), bg.getGreen(), bg.getBlue(), 255));
+        RenderUtils.rect(x + padding, y + height - 2 - padding, bar, 2, new Color(Atlas.waveColor));
     }
 }

@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 public class InterfaceModule extends Module {
     private final ModeProperty mode = new ModeProperty("Mode", "Modes!", "Classic", "Classic", "Traditional");
     private final BooleanProperty whiteText = new BooleanProperty("White colored modules", "Uses white text instead of gradient colored text", false);
+    private final BooleanProperty info = new BooleanProperty("Information", "Shows information in the corner", true);
 
     public InterfaceModule() {
         super("Interface", "About the client!", ModuleCategory.VISUAL);
@@ -34,6 +35,7 @@ public class InterfaceModule extends Module {
     public void onRender2D(Render2DEvent event) {
         Entry.updateEntries();
         whiteText.require(mode.getValue().equals("Classic"));
+        int infoColor = 0;
 
         switch (mode.getValue()) {
             case "Classic":
@@ -63,13 +65,22 @@ public class InterfaceModule extends Module {
                     y+= Math.round(9 * entry.getAnimation().getValue());
                     index++;
                 }
+
+                infoColor = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), index + 1);
                 break;
             case "Traditional":
-                int tWidth = mc.fontRendererObj.getStringWidth("A");
                 int xPadding = 2;
                 int yPadding = 1;
-                mc.fontRendererObj.drawString("A", 4, 4, Atlas.waveColor, true);
-                mc.fontRendererObj.drawString("tlas", 4 + tWidth, 4, Color.white.getRGB(), true);
+                GlStateManager.pushMatrix();
+                GlStateManager.translate(4, 4, 1);
+                GlStateManager.scale(1.5, 1.5, 1);
+                int tWidth = mc.fontRendererObj.getStringWidth("A");
+                mc.fontRendererObj.drawString("A", 0, 0, Atlas.waveColor, true);
+                mc.fontRendererObj.drawString("tlas", tWidth, 0, Color.white.getRGB(), true);
+                int fullWidth = tWidth + mc.fontRendererObj.getStringWidth("tlas    ");
+                GlStateManager.popMatrix();
+
+                mc.fontRendererObj.drawStringWithShadow(version.substring(0, version.length() - 4), 4 + fullWidth, 8, Color.white.getRGB());
 
                 int i = 2;
                 int yDraw = 0;
@@ -92,10 +103,14 @@ public class InterfaceModule extends Module {
                     yDraw = (int) Math.round((yDraw + rectHeight * entry.getAnimation().getValue()));
                     i++;
                 }
+
+                infoColor = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), i + 1);
                 break;
         }
 
-        setSuffix(String.valueOf(Minecraft.getDebugFPS()));
+        if (info.isEnabled()) {
+            mc.fontRendererObj.drawStringWithShadow("FPS: " + Minecraft.getDebugFPS(), 2, event.getScaledResolution().getScaledHeight() - 10, infoColor);
+        }
     }
 
 
