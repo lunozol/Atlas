@@ -9,6 +9,7 @@ import lombok.Setter;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.MathHelper;
 
 import java.awt.*;
 
@@ -48,12 +49,17 @@ public class PlayerListEntry extends Entry {
         anim.run(y);
 
         GlStateManager.pushMatrix();
+        float centerX = x + ((float) width / 2);
+        float centerY = y + ((float) height / 2);
+        GlStateManager.translate(centerX, centerY, 0);
+        GlStateManager.scale(0.8 * fadeAnim.getValue(), 0.8 * fadeAnim.getValue(), 1);
+        GlStateManager.translate(-centerX, -centerY, 0);
 
-        RenderUtils.rect(x, (int) Math.round(anim.getValue()), width, height, RenderUtils.withAlpha(bg, (int) Math.round(bg.getAlpha() * fadeAnim.getValue())));
-        GlStateManager.translate(x, (int) Math.round(anim.getValue()) + (height / 2) - (mc.fontRendererObj.FONT_HEIGHT / 2), 1);
-        mc.fontRendererObj.drawStringWithShadow(name, padding, 0, entityPlayer.equals(mc.thePlayer) ? RenderUtils.withAlpha(firstColor, (int) Math.round(255 * fadeAnim.getValue())).getRGB() : RenderUtils.withAlpha(Color.white, (int) Math.round(255 * fadeAnim.getValue())).getRGB());
+        RenderUtils.rect(x, y, width, height, RenderUtils.withAlpha(bg, (int) Math.round(bg.getAlpha() * fadeAnim.getValue())));
+
+        mc.fontRendererObj.drawStringWithShadow(name, x + padding, y + ((float) height / 2) - ((float) mc.fontRendererObj.FONT_HEIGHT / 2), entityPlayer.equals(mc.thePlayer) ? RenderUtils.withAlpha(firstColor, (int) Math.round(255 * fadeAnim.getValue())).getRGB() : RenderUtils.withAlpha(Color.white, MathHelper.clamp_int((int) Math.round(255 * fadeAnim.getValue()), 10, 255)).getRGB());
+
         GlStateManager.popMatrix();
-
     }
 
     public void reset(int y) {

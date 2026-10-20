@@ -6,6 +6,7 @@ import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.ModuleEntry;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.PlayerListEntry;
+import io.lunozol.atlas.utils.client.BotCheckUtil;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import lombok.Getter;
 import net.minecraft.entity.Entity;
@@ -54,7 +55,7 @@ public abstract class Entry implements Constants {
         }
 
         for (Entity entity : mc.theWorld.getLoadedEntityList()) {
-            if (entity instanceof EntityPlayer && playerListEntries.stream().noneMatch(p -> p.getEntityPlayer().equals(entity))) {
+            if (entity instanceof EntityPlayer && BotCheckUtil.checkPlayer(entity) && playerListEntries.stream().noneMatch(p -> p.getEntityPlayer().equals(entity))) {
                 playerListEntries.add(new PlayerListEntry((EntityPlayer) entity));
             }
         }

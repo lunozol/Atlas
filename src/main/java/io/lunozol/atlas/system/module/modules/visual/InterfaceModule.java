@@ -77,7 +77,7 @@ public class InterfaceModule extends Module {
                 int tWidth = mc.fontRendererObj.getStringWidth("A");
                 mc.fontRendererObj.drawString("A", 0, 0, Atlas.waveColor, true);
                 mc.fontRendererObj.drawString("tlas", tWidth, 0, Color.white.getRGB(), true);
-                int fullWidth = tWidth + mc.fontRendererObj.getStringWidth("tlas    ");
+                int fullWidth = (int) Math.round((tWidth * 1.5) + (mc.fontRendererObj.getStringWidth("tlas") * 1.5) + mc.fontRendererObj.getStringWidth(" "));
                 GlStateManager.popMatrix();
 
                 mc.fontRendererObj.drawStringWithShadow(version.substring(0, version.length() - 4), 4 + fullWidth, 8, Color.white.getRGB());

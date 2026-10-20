@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.List;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.render.RenderGuiChatEvent;
 import io.lunozol.atlas.ui.widget.WidgetGUI;
 import net.minecraft.network.play.client.C14PacketTabComplete;
 import net.minecraft.util.BlockPos;
@@ -274,6 +275,8 @@ public class GuiChat extends GuiScreen
         super.drawScreen(mouseX, mouseY, partialTicks);
 
         WidgetGUI.draw(this.width / 2, 15, mouseX, mouseY);
+
+        Atlas.getInstance().getEventBus().publish(new RenderGuiChatEvent(mouseX, mouseY, partialTicks));
     }
 
     public void onAutocompleteResponse(String[] p_146406_1_)

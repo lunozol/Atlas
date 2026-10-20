@@ -36,9 +36,14 @@ public class TargetFinder implements Constants {
             if (entity instanceof EntityPlayer) {
                 allPlayers.add((EntityPlayer) entity);
                 if (mc.thePlayer.getDistanceToEntity(entity) < distanceReq) {
-                    if (BotCheckUtil.checkPlayer(entity)) {
-                        if (mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit.equals(entity)) {
-                            hoveredTargets.add((EntityPlayer) entity);
+                    if (BotCheckUtil.checkPlayer(entity) && entity != mc.thePlayer) {
+                        try {
+                            if (mc.objectMouseOver.entityHit != null && mc.objectMouseOver.entityHit.equals(entity)) {
+                                hoveredTargets.add((EntityPlayer) entity);
+                            }
+                        } catch (NullPointerException e) {
+                            System.out.println("how the fuck is this null");
+                            e.printStackTrace();
                         }
 
                         playerTargets.add((EntityPlayer) entity);
