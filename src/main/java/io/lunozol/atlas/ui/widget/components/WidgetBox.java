@@ -33,7 +33,7 @@ public class WidgetBox implements Constants {
         for (WidgetPanel widgetPanel : widgetPanels) {
             widgetPanel.draw(xB, yB, mouseX, mouseY);
 
-            xB += 50 + padding;
+            xB += 75 + padding;
             index++;
 
             if (index == 4) {

@@ -18,7 +18,7 @@ public class WidgetPanel implements Constants {
     private final Widget widget;
     private boolean hasClicked;
     private Widget openedWidget;
-
+// TODO recode
     public WidgetPanel(Widget widget) {
         this.widget = widget;
     }

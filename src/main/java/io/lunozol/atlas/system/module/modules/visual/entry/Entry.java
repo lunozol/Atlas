@@ -5,8 +5,12 @@ import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.module.Module;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.ModuleEntry;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
+import io.lunozol.atlas.system.module.modules.visual.entry.entries.PlayerListEntry;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import lombok.Getter;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +20,8 @@ public abstract class Entry implements Constants {
     private static final List<NotificationEntry> notificationEntries = new ArrayList<>();
     @Getter
     private static final List<ModuleEntry> moduleEntries = new ArrayList<>();
+    @Getter
+    private static final List<PlayerListEntry> playerListEntries = new ArrayList<>();
 
     public static void registerNotification(String title, String description, boolean forceAdd) {
         NotificationEntry entry = new NotificationEntry(title, description);
@@ -47,8 +53,15 @@ public abstract class Entry implements Constants {
             entry.update();
         }
 
+        for (Entity entity : mc.theWorld.getLoadedEntityList()) {
+            if (entity instanceof EntityPlayer && playerListEntries.stream().noneMatch(p -> p.getEntityPlayer().equals(entity))) {
+                playerListEntries.add(new PlayerListEntry((EntityPlayer) entity));
+            }
+        }
+
         moduleEntries.removeIf(ModuleEntry::isDone);
         notificationEntries.removeIf(NotificationEntry::isDone);
+        playerListEntries.removeIf(PlayerListEntry::isStandby);
     }
 
 }

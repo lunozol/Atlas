@@ -1,6 +1,7 @@
 package io.lunozol.atlas.system.widget;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.module.ModuleCategory;
 import io.lunozol.atlas.system.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.system.module.property.Property;
@@ -12,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class Widget {
+public class Widget implements Constants {
     private final List<Property> settings = new ArrayList<>();
     private final String name;
     private final String description;
