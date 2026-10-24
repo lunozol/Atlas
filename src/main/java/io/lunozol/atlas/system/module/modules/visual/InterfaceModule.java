@@ -12,6 +12,7 @@ import io.lunozol.atlas.system.module.property.properties.ModeProperty;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.EnumChatFormatting;
 import org.lwjgl.input.Keyboard;
@@ -86,7 +87,8 @@ public class InterfaceModule extends Module {
                 int yDraw = 0;
                 for (ModuleEntry entry : Entry.getModuleEntries().stream().sorted(Comparator.comparingInt(e -> -mc.fontRendererObj.getStringWidth(e.getModule().getName() + (e.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + e.getModule().getSuffix())))).collect(Collectors.toList())) {
                     int width = mc.fontRendererObj.getStringWidth(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()));
-                    int rectWidth = width + (xPadding * 2);
+                    int sideWidth = 1;
+                    int rectWidth = width + (xPadding * 2) + sideWidth;
                     int rectHeight = mc.fontRendererObj.FONT_HEIGHT + (yPadding * 2);
                     float factor = (float) (1 - entry.getAnimation().getValue());
                     float offsetX = (rectWidth + padding) * factor;
@@ -97,6 +99,7 @@ public class InterfaceModule extends Module {
                     GlStateManager.pushMatrix();
                     GlStateManager.translate(x, yDraw, 1);
                     RenderUtils.rect(0, 0, rectWidth, (int) Math.round(rectHeight * entry.getAnimation().getValue()), bg);
+                    RenderUtils.rect(0 + rectWidth - sideWidth, 0, sideWidth, rectHeight, new Color(color3));
                     mc.fontRendererObj.drawString(entry.getModule().getName() + (entry.getModule().getSuffix() == null ? "" : " " + EnumChatFormatting.GRAY + entry.getModule().getSuffix()), xPadding, yPadding, color3, true);
                     GlStateManager.popMatrix();
 

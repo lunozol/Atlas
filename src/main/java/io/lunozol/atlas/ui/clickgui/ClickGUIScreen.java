@@ -15,6 +15,7 @@ import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.animation.Animation;
 import io.lunozol.atlas.utils.render.animation.Easing;
 import lombok.Setter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.Render;
@@ -23,10 +24,8 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ClickGUIScreen extends GuiScreen {
@@ -88,12 +87,15 @@ public class ClickGUIScreen extends GuiScreen {
         int padding = 2;
         int moduleHeight = 14;
 
-        int x = 10;
+        float totalWidth = (panelWidth * Arrays.stream(ModuleCategory.values()).count()) + (padding * Arrays.stream(ModuleCategory.values()).count()) - (padding * 2);
+
+        int x = Math.round((width / 2) - (totalWidth / 2));
         int y = 50;
       
         GlStateManager.pushMatrix();
-        GlStateManager.translate(1, 1, 1);
+        GlStateManager.translate(x + (totalWidth / 2), -(height * factor), 0);
         GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
+        GlStateManager.translate(-(x + (totalWidth / 2)), -(height * factor), 0);
         for (ModuleCategory category : ModuleCategory.values()) {
             if (!Atlas.getInstance().getManager().getModulesByCategory(category).isEmpty()) {
                 RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.bg.darker().darker());

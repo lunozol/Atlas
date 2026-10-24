@@ -37,7 +37,6 @@ public class DelayRemoverModule extends Module {
         if (right.isEnabled() && onlyOnPlace.isEnabled()) {
             if (event.packet instanceof C08PacketPlayerBlockPlacement && mc.thePlayer.getHeldItem().getItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemBlock) {
                 mc.rightClickDelayTimer = 0;
-                System.out.println("aaa");
             }
         }
     }
