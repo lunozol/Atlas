@@ -1,6 +1,6 @@
 package io.lunozol.atlas.ui.clickgui.property.properties;
 
-import io.lunozol.atlas.system.module.property.properties.ModeProperty;
+import io.lunozol.atlas.system.features.module.property.properties.ModeProperty;
 import io.lunozol.atlas.ui.clickgui.property.PanelProperty;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import lombok.Getter;

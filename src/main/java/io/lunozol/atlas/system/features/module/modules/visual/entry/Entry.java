@@ -1,0 +1,67 @@
+package io.lunozol.atlas.system.features.module.modules.visual.entry;
+
+import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.Constants;
+import io.lunozol.atlas.system.features.module.Module;
+import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.ModuleEntry;
+import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.NotificationEntry;
+import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.PlayerListEntry;
+import io.lunozol.atlas.utils.client.BotCheckUtil;
+import io.lunozol.atlas.utils.game.ChatUtil;
+import lombok.Getter;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class Entry implements Constants {
+    @Getter
+    private static final List<NotificationEntry> notificationEntries = new ArrayList<>();
+    @Getter
+    private static final List<ModuleEntry> moduleEntries = new ArrayList<>();
+    @Getter
+    private static final List<PlayerListEntry> playerListEntries = new ArrayList<>();
+
+    public static void registerNotification(String title, String description, boolean forceAdd) {
+        NotificationEntry entry = new NotificationEntry(title, description);
+
+        if (!forceAdd) {
+            if (notificationEntries.stream().noneMatch(e -> e.getDescription().equals(entry.getDescription()))) {
+                notificationEntries.add(entry);
+                if (debug) {
+                    System.out.println("registered notification " + entry.getDescription());
+                }
+                return;
+            }
+            if (debug) {
+                ChatUtil.send("rejected notification " + entry.getDescription());
+            }
+        } else {
+            notificationEntries.add(entry);
+        }
+    }
+
+    public static void updateEntries() {
+        for (Module module : Atlas.getInstance().getManager().getEnabledModules()) {
+            if (moduleEntries.stream().noneMatch(e -> e.getModule().equals(module))) {
+                moduleEntries.add(new ModuleEntry(module));
+            }
+        }
+
+        for (ModuleEntry entry : moduleEntries) {
+            entry.update();
+        }
+
+        for (Entity entity : mc.theWorld.getLoadedEntityList()) {
+            if (entity instanceof EntityPlayer && BotCheckUtil.checkPlayer(entity) && playerListEntries.stream().noneMatch(p -> p.getEntityPlayer().equals(entity))) {
+                playerListEntries.add(new PlayerListEntry((EntityPlayer) entity));
+            }
+        }
+
+        moduleEntries.removeIf(ModuleEntry::isDone);
+        notificationEntries.removeIf(NotificationEntry::isDone);
+        playerListEntries.removeIf(PlayerListEntry::isStandby);
+    }
+
+}

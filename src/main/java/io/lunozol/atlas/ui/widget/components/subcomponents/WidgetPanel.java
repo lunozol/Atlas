@@ -1,12 +1,11 @@
 package io.lunozol.atlas.ui.widget.components.subcomponents;
 
 import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.widget.Widget;
+import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import lombok.Getter;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
 import org.lwjgl.input.Mouse;
 
 import java.awt.*;

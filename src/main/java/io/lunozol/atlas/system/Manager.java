@@ -1,20 +1,20 @@
 package io.lunozol.atlas.system;
 
 import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.module.Module;
-import io.lunozol.atlas.system.module.ModuleCategory;
-import io.lunozol.atlas.system.module.modules.client.DebugModule;
-import io.lunozol.atlas.system.module.modules.combat.AutoClickerModule;
-import io.lunozol.atlas.system.module.modules.combat.KillAuraModule;
-import io.lunozol.atlas.system.module.modules.movement.SprintModule;
-import io.lunozol.atlas.system.module.modules.player.DelayRemoverModule;
-import io.lunozol.atlas.system.module.modules.visual.ClickGUIModule;
-import io.lunozol.atlas.system.module.modules.visual.InterfaceModule;
-import io.lunozol.atlas.system.module.modules.visual.ItemRendererModule;
-import io.lunozol.atlas.system.module.modules.client.TestModule;
-import io.lunozol.atlas.system.widget.Widget;
-import io.lunozol.atlas.system.widget.widgets.NotificationsWidget;
-import io.lunozol.atlas.system.widget.widgets.PlayerListWidget;
+import io.lunozol.atlas.system.features.module.Module;
+import io.lunozol.atlas.system.features.module.ModuleCategory;
+import io.lunozol.atlas.system.features.module.modules.client.DebugModule;
+import io.lunozol.atlas.system.features.module.modules.combat.AutoClickerModule;
+import io.lunozol.atlas.system.features.module.modules.combat.KillAuraModule;
+import io.lunozol.atlas.system.features.module.modules.movement.SprintModule;
+import io.lunozol.atlas.system.features.module.modules.player.DelayRemoverModule;
+import io.lunozol.atlas.system.features.module.modules.visual.ClickGUIModule;
+import io.lunozol.atlas.system.features.module.modules.visual.InterfaceModule;
+import io.lunozol.atlas.system.features.module.modules.visual.ItemRendererModule;
+import io.lunozol.atlas.system.features.module.modules.client.TestModule;
+import io.lunozol.atlas.system.features.widget.Widget;
+import io.lunozol.atlas.system.features.widget.widgets.NotificationsWidget;
+import io.lunozol.atlas.system.features.widget.widgets.PlayerListWidget;
 import lombok.Getter;
 
 import java.util.ArrayList;

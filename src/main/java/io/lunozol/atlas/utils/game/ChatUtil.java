@@ -2,8 +2,8 @@ package io.lunozol.atlas.utils.game;
 
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.module.modules.visual.entry.Entry;
-import io.lunozol.atlas.system.widget.widgets.NotificationsWidget;
+import io.lunozol.atlas.system.features.module.modules.visual.entry.Entry;
+import io.lunozol.atlas.system.features.widget.widgets.NotificationsWidget;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 

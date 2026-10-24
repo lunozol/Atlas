@@ -2,8 +2,7 @@ package io.lunozol.atlas.ui.widget.components;
 
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.Manager;
-import io.lunozol.atlas.system.widget.Widget;
+import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.ui.widget.components.subcomponents.WidgetPanel;
 import io.lunozol.atlas.utils.render.RenderUtils;
 

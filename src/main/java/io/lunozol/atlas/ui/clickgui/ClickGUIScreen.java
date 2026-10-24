@@ -1,24 +1,24 @@
 package io.lunozol.atlas.ui.clickgui;
 
 import io.lunozol.atlas.Atlas;
-import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.module.Module;
-import io.lunozol.atlas.system.module.ModuleCategory;
-import io.lunozol.atlas.system.module.property.Property;
-import io.lunozol.atlas.system.module.property.properties.BooleanProperty;
-import io.lunozol.atlas.system.module.property.properties.ModeProperty;
+import io.lunozol.atlas.system.features.module.Module;
+import io.lunozol.atlas.system.features.module.ModuleCategory;
+import io.lunozol.atlas.system.features.module.modules.visual.ClickGUIModule;
+import io.lunozol.atlas.system.features.module.property.Property;
+import io.lunozol.atlas.system.features.module.property.properties.BooleanProperty;
+import io.lunozol.atlas.system.features.module.property.properties.ModeProperty;
+import io.lunozol.atlas.system.features.module.property.properties.TextProperty;
 import io.lunozol.atlas.ui.clickgui.property.PanelProperty;
 import io.lunozol.atlas.ui.clickgui.property.properties.BooleanPanel;
 import io.lunozol.atlas.ui.clickgui.property.properties.ModePanel;
+import io.lunozol.atlas.ui.clickgui.property.properties.TextPanel;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.animation.Animation;
 import io.lunozol.atlas.utils.render.animation.Easing;
 import lombok.Setter;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.Render;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -29,6 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class ClickGUIScreen extends GuiScreen {
+    private ClickGUIModule clickGUIModule;
     private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
     private final Map<Module, List<PanelProperty>> settings = new HashMap<>();
     private List<Module> opened = new ArrayList<>();
@@ -43,6 +44,7 @@ public class ClickGUIScreen extends GuiScreen {
 
     @Override
     public void initGui() {
+        clickGUIModule = (ClickGUIModule) Atlas.getInstance().getManager().getModule(ClickGUIModule.class);
         canClose = false;
         super.initGui();
     }
@@ -66,6 +68,8 @@ public class ClickGUIScreen extends GuiScreen {
                         panelList.add(new BooleanPanel((BooleanProperty) property));
                     } else if (property instanceof ModeProperty) {
                         panelList.add(new ModePanel((ModeProperty) property, settingHeight));
+                    } else if (property instanceof TextProperty) {
+                        panelList.add(new TextPanel(((TextProperty) property)));
                     }
                 }
 
@@ -79,8 +83,8 @@ public class ClickGUIScreen extends GuiScreen {
 
         float factor = (float) (1 - animation.getValue());
 
-
-        RenderUtils.rect(0, 0, width * 2, height * 2, RenderUtils.withAlpha(Atlas.bg, (int) Math.round(100 * animation.getValue())));
+        if (clickGUIModule.background.isEnabled())
+            RenderUtils.rect(0, 0, width * 2, height * 2, RenderUtils.withAlpha(Atlas.bg, (int) Math.round(100 * animation.getValue())));
 
         int panelWidth = 135;
         int cHeight = 12;
@@ -91,14 +95,14 @@ public class ClickGUIScreen extends GuiScreen {
 
         int x = Math.round((width / 2) - (totalWidth / 2));
         int y = 50;
-      
+
         GlStateManager.pushMatrix();
         GlStateManager.translate(x + (totalWidth / 2), -(height * factor), 0);
         GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
         GlStateManager.translate(-(x + (totalWidth / 2)), -(height * factor), 0);
         for (ModuleCategory category : ModuleCategory.values()) {
             if (!Atlas.getInstance().getManager().getModulesByCategory(category).isEmpty()) {
-                RenderUtils.rect(x, y, panelWidth, cHeight, Atlas.bg.darker().darker());
+                RenderUtils.gradientRect(x, y, panelWidth, cHeight, Atlas.bg, Atlas.bg.darker().darker().darker());
 
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(x + ((float) panelWidth / 2), y + ((float) cHeight / 4) - 1, 1);
@@ -149,6 +153,10 @@ public class ClickGUIScreen extends GuiScreen {
                                         settingHeight = ((ModePanel) property).getHeight();
                                     }
                                     hasLeftClicked = ((ModePanel) property).hasClicked || hasLeftClicked;
+                                }
+
+                                if (property instanceof TextPanel) {
+                                    property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
                                 }
 
                                 sY += settingHeight;
@@ -226,19 +234,16 @@ public class ClickGUIScreen extends GuiScreen {
             return;
         }
 
-        if (keyCode == 1)
-        {
+        if (keyCode == 1) {
             canClose = true;
         }
     }
 
     private void close() {
-        this.mc.displayGuiScreen((GuiScreen)null);
+        this.mc.displayGuiScreen((GuiScreen) null);
 
-        if (this.mc.currentScreen == null)
-        {
+        if (this.mc.currentScreen == null) {
             this.mc.setIngameFocus();
         }
     }
-
 }
