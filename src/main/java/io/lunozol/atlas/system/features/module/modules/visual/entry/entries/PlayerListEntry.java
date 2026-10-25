@@ -1,6 +1,7 @@
 package io.lunozol.atlas.system.features.module.modules.visual.entry.entries;
 
 import io.lunozol.atlas.system.features.module.modules.visual.entry.Entry;
+import io.lunozol.atlas.utils.client.BotCheckUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.animation.Animation;
 import io.lunozol.atlas.utils.render.animation.Easing;
@@ -18,6 +19,7 @@ public class PlayerListEntry extends Entry {
     private final Animation anim = new Animation(Easing.EASE_IN_OUT_CUBIC, 150);
     private final Animation fadeAnim = new Animation(Easing.EASE_IN_OUT_CUBIC, 150);
     private String name;
+    private String displayName;
     private double distToPlayer;
     private EntityPlayer entityPlayer;
     private boolean standby;
@@ -32,12 +34,13 @@ public class PlayerListEntry extends Entry {
 
     public PlayerListEntry(EntityPlayer entityPlayer) {
         this.name = entityPlayer.getName();
+        this.displayName = entityPlayer.getDisplayName().toString();
         this.distToPlayer = mc.thePlayer.getDistanceToEntity(entityPlayer);
         this.entityPlayer = entityPlayer;
     }
 
     public void draw() {
-        if (mc.theWorld.getLoadedEntityList().contains(entityPlayer)) {
+        if (mc.theWorld.getLoadedEntityList().contains(entityPlayer) && BotCheckUtil.checkPlayer(entityPlayer)) {
             fadeAnim.run(1);
             standby = false;
         } else {

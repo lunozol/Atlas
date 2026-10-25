@@ -1,6 +1,7 @@
 package io.lunozol.atlas.ui.clickgui;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.Manager;
 import io.lunozol.atlas.system.cache.caches.ImageCache;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
@@ -34,7 +35,7 @@ import java.util.stream.Collectors;
 public class ClickGUIScreen extends GuiScreen {
     private ClickGUIModule clickGUIModule;
     private ImageCache imageCache;
-    private final Animation animation = new Animation(Easing.EASE_OUT_CUBIC, 350);
+    private final Animation animation = new Animation(Easing.EASE_OUT_CUBIC, 250);
     private final Map<Module, List<PanelProperty>> settings = new HashMap<>();
     private List<Module> opened = new ArrayList<>();
     private Module listeningModule;
@@ -45,6 +46,7 @@ public class ClickGUIScreen extends GuiScreen {
     private final int INACTIVE = 914230131;
     @Setter
     private boolean canClose = false;
+    private int totalWidth = 0;
 
     @Override
     public void initGui() {
@@ -111,7 +113,15 @@ public class ClickGUIScreen extends GuiScreen {
         int padding = 2;
         int moduleHeight = 14;
 
-        float totalWidth = (panelWidth * Arrays.stream(ModuleCategory.values()).count()) + (padding * Arrays.stream(ModuleCategory.values()).count()) - (padding * 2);
+        if (totalWidth == 0) {
+            for (ModuleCategory category : ModuleCategory.values()) {
+                if (!Atlas.getInstance().getManager().getModulesByCategory(category).isEmpty()) {
+                    totalWidth += panelWidth + padding;
+                }
+            }
+
+            totalWidth -= padding;
+        }
 
         int x = Math.round((width / 2) - (totalWidth / 2));
         int y = 50;

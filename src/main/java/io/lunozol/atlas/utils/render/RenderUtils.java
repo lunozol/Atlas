@@ -131,4 +131,21 @@ public class RenderUtils implements Constants {
             GlStateManager.popMatrix();
         }
     }
+
+    // head dimensions by Gemini since I don't know them
+    public static void drawHead(ResourceLocation resourceLocation, int x, int y, float size, Color color) {
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(x, y, 1);
+        GlStateManager.scale(size, size, 1);
+        GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255);
+        mc.getTextureManager().bindTexture(resourceLocation);
+
+        // Base face
+        Gui.drawModalRectWithCustomSizedTexture(0, 0, 8.0F, 8.0F, 8, 8, 64.0F, 64.0F);
+
+        // hat overlay
+        Gui.drawModalRectWithCustomSizedTexture(0, 0, 40.0F, 8.0F, 8, 8, 64.0F, 64.0F);
+
+        GlStateManager.popMatrix();
+    }
 }

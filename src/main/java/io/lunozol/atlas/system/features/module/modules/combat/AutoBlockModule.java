@@ -7,6 +7,7 @@ import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
 import io.lunozol.atlas.system.finder.Finder;
 import io.lunozol.atlas.system.finder.finders.TargetFinder;
+import io.lunozol.atlas.utils.game.ChatUtil;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
@@ -24,9 +25,11 @@ public class AutoBlockModule extends Module {
         if (mc.thePlayer == null || Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().isEmpty())
             return false;
 
+        if (mc.thePlayer.hurtTime > 2) return false;
+
         EntityPlayer entityPlayer = Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().stream().findFirst().get();
 
-        if (entityPlayer.hurtTime != 0) {
+        if (entityPlayer.hurtTime != 0 && mc.thePlayer.getCurrentEquippedItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() != null && mc.thePlayer.getCurrentEquippedItem().getItem() instanceof ItemSword) {
             haveDealtDamage = true;
         } else {
             haveDealtDamage = false;

@@ -78,6 +78,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
     private float horseJumpPower;
     public float timeInPortal;
     public float prevTimeInPortal;
+    public int offGroundTicks;
 
     public EntityPlayerSP(Minecraft mcIn, World worldIn, NetHandlerPlayClient netHandler, StatFileWriter statFile)
     {
@@ -584,6 +585,12 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
     public void onLivingUpdate()
     {
+        if (!this.onGround) {
+            offGroundTicks++;
+        } else {
+            offGroundTicks = 0;
+        }
+
         if (this.sprintingTicksLeft > 0)
         {
             --this.sprintingTicksLeft;

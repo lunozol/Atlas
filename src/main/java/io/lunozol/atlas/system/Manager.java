@@ -7,6 +7,7 @@ import io.lunozol.atlas.system.features.module.modules.client.DebugModule;
 import io.lunozol.atlas.system.features.module.modules.combat.AutoBlockModule;
 import io.lunozol.atlas.system.features.module.modules.combat.AutoClickerModule;
 import io.lunozol.atlas.system.features.module.modules.combat.KillAuraModule;
+import io.lunozol.atlas.system.features.module.modules.movement.LowHopModule;
 import io.lunozol.atlas.system.features.module.modules.movement.SprintModule;
 import io.lunozol.atlas.system.features.module.modules.player.DelayRemoverModule;
 import io.lunozol.atlas.system.features.module.modules.visual.ClickGUIModule;
@@ -16,6 +17,7 @@ import io.lunozol.atlas.system.features.module.modules.client.TestModule;
 import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.system.features.widget.widgets.NotificationsWidget;
 import io.lunozol.atlas.system.features.widget.widgets.PlayerListWidget;
+import io.lunozol.atlas.system.features.widget.widgets.TargetInfoWidget;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -37,6 +39,7 @@ public class Manager implements Constants {
         modules.add(new KillAuraModule());
         modules.add(new ItemRendererModule());
         modules.add(new AutoBlockModule());
+        modules.add(new LowHopModule());
 
         if (debug) {
             modules.add(new DebugModule());
@@ -46,6 +49,7 @@ public class Manager implements Constants {
         // widgets
         widgets.add(new NotificationsWidget());
         widgets.add(new PlayerListWidget());
+        widgets.add(new TargetInfoWidget());
     }
 
     public List<Module> getEnabledModules() {

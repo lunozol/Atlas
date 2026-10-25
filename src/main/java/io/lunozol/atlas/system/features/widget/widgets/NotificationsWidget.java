@@ -13,6 +13,7 @@ public class NotificationsWidget extends Widget {
 
     public NotificationsWidget() {
         super("Notifications", "Notifies you for some stuff");
+        setEnabled(true);
     }
 
     @Listen
