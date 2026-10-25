@@ -29,13 +29,13 @@ public class AutoClickerModule extends Module {
 
     private boolean canHit() {
         if (!hitSelect.isEnabled()) return true;
-        if (Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().isEmpty()) return false;
+        if (Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().isEmpty()) return true;
 
         if (Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().stream().findFirst().get().hurtTime < 2) {
             return true;
+        } else {
+            return false;
         }
-
-        return false;
     }
 
     @Listen

@@ -9,6 +9,7 @@ import io.lunozol.atlas.system.features.module.modules.combat.AutoClickerModule;
 import io.lunozol.atlas.system.features.module.modules.combat.KillAuraModule;
 import io.lunozol.atlas.system.features.module.modules.movement.LowHopModule;
 import io.lunozol.atlas.system.features.module.modules.movement.SprintModule;
+import io.lunozol.atlas.system.features.module.modules.player.ChestStealerModule;
 import io.lunozol.atlas.system.features.module.modules.player.DelayRemoverModule;
 import io.lunozol.atlas.system.features.module.modules.visual.ClickGUIModule;
 import io.lunozol.atlas.system.features.module.modules.visual.InterfaceModule;
@@ -40,6 +41,7 @@ public class Manager implements Constants {
         modules.add(new ItemRendererModule());
         modules.add(new AutoBlockModule());
         modules.add(new LowHopModule());
+        modules.add(new ChestStealerModule());
 
         if (debug) {
             modules.add(new DebugModule());

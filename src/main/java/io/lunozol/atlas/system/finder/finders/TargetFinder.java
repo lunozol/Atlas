@@ -17,7 +17,6 @@ import java.util.stream.Collectors;
 
 @Getter
 public class TargetFinder implements Constants {
-    private final List<EntityPlayer> allPlayers = new ArrayList<>();
     private final List<EntityPlayer> playerTargets = new ArrayList<>();
     private final List<EntityPlayer> hoveredTargets = new ArrayList<>();
 
@@ -28,13 +27,11 @@ public class TargetFinder implements Constants {
     public void onTick(TickEvent event) {
         playerTargets.clear();
         hoveredTargets.clear();
-        allPlayers.clear();
 
         if (mc.thePlayer == null || mc.theWorld == null) return;
 
         for (Entity entity : mc.theWorld.loadedEntityList) {
             if (entity instanceof EntityPlayer) {
-                allPlayers.add((EntityPlayer) entity);
                 if (mc.thePlayer.getDistanceToEntity(entity) < distanceReq) {
                     if (BotCheckUtil.checkPlayer(entity) && entity != mc.thePlayer) {
                         try {

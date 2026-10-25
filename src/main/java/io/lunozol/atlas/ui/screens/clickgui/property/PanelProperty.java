@@ -1,4 +1,4 @@
-package io.lunozol.atlas.ui.clickgui.property;
+package io.lunozol.atlas.ui.screens.clickgui.property;
 
 import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.utils.render.RenderUtils;

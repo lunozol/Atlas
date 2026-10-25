@@ -89,7 +89,7 @@ public class TargetInfoWidget extends Widget {
         }
 
         if (animation.getValue() > 0) {
-            int width = 135;
+            int width = 110;
             int height = 30;
 
             if (height + mc.fontRendererObj.getStringWidth(entityCache.getDisplayName()) > width) {

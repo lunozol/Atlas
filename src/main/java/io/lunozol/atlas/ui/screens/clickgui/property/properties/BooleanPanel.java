@@ -1,7 +1,7 @@
-package io.lunozol.atlas.ui.clickgui.property.properties;
+package io.lunozol.atlas.ui.screens.clickgui.property.properties;
 
 import io.lunozol.atlas.system.features.module.property.properties.BooleanProperty;
-import io.lunozol.atlas.ui.clickgui.property.PanelProperty;
+import io.lunozol.atlas.ui.screens.clickgui.property.PanelProperty;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.animation.Animation;
 import io.lunozol.atlas.utils.render.animation.Easing;
