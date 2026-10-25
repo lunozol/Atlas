@@ -1,6 +1,7 @@
 package io.lunozol.atlas.ui.clickgui;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.cache.caches.ImageCache;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
 import io.lunozol.atlas.system.features.module.modules.visual.ClickGUIModule;
@@ -19,6 +20,8 @@ import io.lunozol.atlas.utils.render.animation.Easing;
 import lombok.Setter;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
@@ -30,6 +33,7 @@ import java.util.stream.Collectors;
 
 public class ClickGUIScreen extends GuiScreen {
     private ClickGUIModule clickGUIModule;
+    private ImageCache imageCache;
     private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
     private final Map<Module, List<PanelProperty>> settings = new HashMap<>();
     private List<Module> opened = new ArrayList<>();
@@ -45,6 +49,11 @@ public class ClickGUIScreen extends GuiScreen {
     @Override
     public void initGui() {
         clickGUIModule = (ClickGUIModule) Atlas.getInstance().getManager().getModule(ClickGUIModule.class);
+
+        if (imageCache == null) {
+            imageCache = new ImageCache(new ResourceLocation("atlas/cousin.png"), RenderUtils.getImage(new ResourceLocation("atlas/cousin.png")));
+        }
+
         canClose = false;
         super.initGui();
     }
@@ -82,6 +91,11 @@ public class ClickGUIScreen extends GuiScreen {
         if (!Mouse.isButtonDown(2)) hasMiddleClicked = false;
 
         float factor = (float) (1 - animation.getValue());
+        float imageScale = 0.2f;
+        GlStateManager.pushMatrix();
+        GlStateManager.translate(Math.round(width - (imageCache.getBufferedImage().getWidth() * imageScale) - 8), Math.round(height - (imageCache.getBufferedImage().getHeight() * imageScale) - 8) + ((height) * factor), 1);
+        RenderUtils.drawImage(imageCache.getResourceLocation(), imageCache.getBufferedImage(), 0, 0, imageScale, Color.white);
+        GlStateManager.popMatrix();
 
         if (clickGUIModule.background.isEnabled())
             RenderUtils.rect(0, 0, width * 2, height * 2, RenderUtils.withAlpha(Atlas.bg, (int) Math.round(100 * animation.getValue())));

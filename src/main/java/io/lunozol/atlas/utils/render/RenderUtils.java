@@ -9,10 +9,16 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.client.resources.IResource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Locale;
 
 public class RenderUtils implements Constants {
@@ -63,7 +69,7 @@ public class RenderUtils implements Constants {
     }
 
     public static int lerp(int a, int b, float f) {
-        return a + (int)(f * (float)(b - a));
+        return a + (int) (f * (float) (b - a));
     }
 
     public static String normalizeString(String input) {
@@ -84,5 +90,45 @@ public class RenderUtils implements Constants {
 
     public static int getMouseY() {
         return Mouse.getY() / scaledResolution.getScaleFactor() - 27;
+    }
+
+    public static BufferedImage getImage(ResourceLocation resourceLocation) {
+        if (resourceLocation == null) return null;
+
+        try {
+            IResource resource = mc.getResourceManager().getResource(resourceLocation);
+            InputStream stream = resource.getInputStream();
+            BufferedImage image = ImageIO.read(stream);
+
+            return image;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static void drawImage(ResourceLocation resourceLocation, BufferedImage image, int x, int y, float size, Color color) {
+        if (image == null) return;
+
+        int width = 0;
+        int height = 0;
+
+        if (image != null) {
+            width = image.getWidth();
+            height = image.getHeight();
+        }
+
+        if (width != 0 && height != 0) {
+            GlStateManager.pushMatrix();
+            mc.getTextureManager().bindTexture(resourceLocation);
+            GlStateManager.translate(x, y, 1);
+            GlStateManager.scale(size, size, 1);
+            GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255);
+            Gui.drawModalRectWithCustomSizedTexture(0, 0,
+                    0, 0,
+                    width, height,
+                    width, height);
+
+            GlStateManager.popMatrix();
+        }
     }
 }
