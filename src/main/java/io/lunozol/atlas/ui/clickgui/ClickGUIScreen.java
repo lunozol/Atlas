@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 public class ClickGUIScreen extends GuiScreen {
     private ClickGUIModule clickGUIModule;
     private ImageCache imageCache;
-    private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
+    private final Animation animation = new Animation(Easing.EASE_OUT_CUBIC, 350);
     private final Map<Module, List<PanelProperty>> settings = new HashMap<>();
     private List<Module> opened = new ArrayList<>();
     private Module listeningModule;
@@ -60,6 +60,12 @@ public class ClickGUIScreen extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
+        if (canClose) {
+            animation.setEasing(Easing.EASE_IN_CUBIC);
+        } else {
+            animation.setEasing(Easing.EASE_OUT_CUBIC);
+        }
+
         animation.run(canClose ? 0 : 1);
 
         if (canClose && animation.getValue() == 0) {

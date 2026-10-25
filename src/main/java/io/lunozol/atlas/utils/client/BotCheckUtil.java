@@ -10,11 +10,13 @@ import java.util.List;
 
 public class BotCheckUtil implements Constants {
     public static boolean checkPlayer(Entity entity) {
-        boolean uuidCheck = true;
-        if (mc.getNetHandler() != null && mc.getNetHandler().getPlayerInfo(entity.getUniqueID()) == null) {
-            uuidCheck = false;
+        if (!(entity instanceof EntityPlayer)) return false;
+        if (entity.getName().startsWith("§")) return false;
+
+        if (mc.getNetHandler() != null) {
+            return mc.getNetHandler().getPlayerInfo(entity.getUniqueID()) != null;
         }
 
-        return entity instanceof EntityPlayer && !entity.getName().startsWith("§") && uuidCheck;
+        return false;
     }
 }

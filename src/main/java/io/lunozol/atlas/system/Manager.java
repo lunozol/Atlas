@@ -4,6 +4,7 @@ import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
 import io.lunozol.atlas.system.features.module.modules.client.DebugModule;
+import io.lunozol.atlas.system.features.module.modules.combat.AutoBlockModule;
 import io.lunozol.atlas.system.features.module.modules.combat.AutoClickerModule;
 import io.lunozol.atlas.system.features.module.modules.combat.KillAuraModule;
 import io.lunozol.atlas.system.features.module.modules.movement.SprintModule;
@@ -35,6 +36,7 @@ public class Manager implements Constants {
         modules.add(new SprintModule());
         modules.add(new KillAuraModule());
         modules.add(new ItemRendererModule());
+        modules.add(new AutoBlockModule());
 
         if (debug) {
             modules.add(new DebugModule());
