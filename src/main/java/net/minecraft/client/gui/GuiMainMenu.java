@@ -13,6 +13,8 @@ import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.ui.button.NewAtlasButton;
+import io.lunozol.atlas.ui.screens.mainmenu.AtlasMainMenuScreen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -35,6 +37,7 @@ import net.optifine.reflect.Reflector;
 import org.apache.commons.io.Charsets;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.lwjgl.input.Mouse;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GLContext;
 import org.lwjgl.util.glu.Project;
@@ -70,6 +73,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
     private GuiScreen field_183503_M;
     private GuiButton modButton;
     private GuiScreen modUpdateNotification;
+    private NewAtlasButton atlasButton;
 
     public GuiMainMenu()
     {
@@ -196,6 +200,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 48, 98, 20, I18n.format("menu.options", new Object[0])));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 48, 98, 20, I18n.format("menu.quit", new Object[0])));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 48));
+        this.atlasButton = new NewAtlasButton("Test", 0, 45, 50, 80, 15);
 
         synchronized (this.threadLock)
         {
@@ -621,10 +626,17 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         {
             this.modUpdateNotification.drawScreen(mouseX, mouseY, partialTicks);
         }
+
+        atlasButton.drawButton();
+        atlasButton.updateHover(mouseX, mouseY, 45, 50);
     }
 
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
+        if (atlasButton.isHovered()) {
+            System.out.println("aaa");
+            mc.displayGuiScreen(new AtlasMainMenuScreen());
+        }
         super.mouseClicked(mouseX, mouseY, mouseButton);
 
         synchronized (this.threadLock)

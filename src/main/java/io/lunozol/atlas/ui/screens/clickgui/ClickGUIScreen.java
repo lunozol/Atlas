@@ -41,7 +41,6 @@ public class ClickGUIScreen extends GuiScreen {
     private boolean hasLeftClicked;
     private boolean hasRightClicked;
     private boolean hasMiddleClicked;
-    private final int INACTIVE = 914230131;
     @Setter
     private boolean canClose = false;
     private int totalWidth = 0;
