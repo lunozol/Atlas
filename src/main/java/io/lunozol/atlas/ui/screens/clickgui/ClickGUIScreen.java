@@ -124,7 +124,7 @@ public class ClickGUIScreen extends GuiScreen {
         int y = 50;
 
         GlStateManager.pushMatrix();
-        GlStateManager.translate(x + (totalWidth / 2), -(height * factor), 0);
+        GlStateManager.translate(x + (totalWidth / 2), -((height / 2) * factor), 0);
         GlStateManager.scale(animation.getValue(), animation.getValue(), 1);
         GlStateManager.translate(-(x + (totalWidth / 2)), -(height * factor), 0);
         for (ModuleCategory category : ModuleCategory.values()) {

@@ -132,6 +132,22 @@ public class RenderUtils implements Constants {
         }
     }
 
+    public static void drawImage(ResourceLocation resourceLocation, int x, int y, int width, int height, float size, Color color) {
+        if (width != 0 && height != 0) {
+            GlStateManager.pushMatrix();
+            mc.getTextureManager().bindTexture(resourceLocation);
+            GlStateManager.translate(x, y, 1);
+            GlStateManager.scale(size, size, 1);
+            GlStateManager.color((float) color.getRed() / 255, (float) color.getGreen() / 255, (float) color.getBlue() / 255, (float) color.getAlpha() / 255);
+            Gui.drawModalRectWithCustomSizedTexture(0, 0,
+                    0, 0,
+                    width, height,
+                    width, height);
+
+            GlStateManager.popMatrix();
+        }
+    }
+
     // head dimensions by Gemini since I don't know them
     public static void drawHead(ResourceLocation resourceLocation, int x, int y, float size, Color color) {
         GlStateManager.pushMatrix();

@@ -25,6 +25,13 @@ public class Animation {
         this.duration = duration;
     }
 
+    public Animation(final Easing easing, final long duration, double defaultValue) {
+        this.easing = easing;
+        this.duration = duration;
+        this.value = defaultValue;
+        this.startTime = System.currentTimeMillis();
+    }
+
     public void run(final double destinationValue) {
         long millis = System.currentTimeMillis();
         if (this.destinationValue != destinationValue) {

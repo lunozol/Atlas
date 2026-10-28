@@ -1,5 +1,6 @@
 package io.lunozol.atlas.ui.button;
 
+import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.animation.Animation;
@@ -17,7 +18,7 @@ import java.awt.*;
 @Setter
 @RequiredArgsConstructor
 public class NewAtlasButton implements Constants {
-    private Animation animation = new Animation(Easing.EASE_OUT_CUBIC, 150);
+    private Animation animation = new Animation(Easing.EASE_OUT_CUBIC, 150, 2);
     private final String title;
     private final int id;
     private final int x;
@@ -40,7 +41,7 @@ public class NewAtlasButton implements Constants {
         int barWidth = (int) Math.round((width - (padding * 2)) / animation.getValue());
 
         RenderUtils.rect(0, 0, width, height, RenderUtils.withAlpha(bg, alpha));
-        RenderUtils.rect((width / 2) - (barWidth / 2), height - 2 - padding, barWidth, 2, firstColor);
+        RenderUtils.gradientRect((width / 2) - (barWidth / 2), height - 2 - padding, barWidth, 2, firstColor, firstColor.darker());
 
         mc.fontRendererObj.drawStringWithShadow(this.title, ((float) width / 2) - ((float) mc.fontRendererObj.getStringWidth(this.title) / 2), textY, Color.white.getRGB());
 

@@ -40,13 +40,12 @@ public class ChestStealerModule extends Module {
                                 if (stack.getItem() instanceof ItemSword) {
                                     float compPoints = InventoryUtil.getSwordDamage(stack);
 
-                                    if (compPoints > origPoints) {
+                                    if (compPoints < origPoints) {
                                         ChatUtil.send("Better sword at slot: " + slot.slotNumber);
                                     }
                                 }
                             }
                         }
-
                     }
                 }
             }

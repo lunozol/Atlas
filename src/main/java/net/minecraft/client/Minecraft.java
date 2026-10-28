@@ -40,6 +40,7 @@ import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.event.events.game.GameLoopEvent;
 import io.lunozol.atlas.system.event.events.game.KeyEvent;
 import io.lunozol.atlas.system.event.events.game.TickEvent;
+import io.lunozol.atlas.ui.screens.mainmenu.AtlasMainMenuScreen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.audio.MusicTicker;
@@ -495,11 +496,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (this.serverName != null)
         {
-            this.displayGuiScreen(new GuiConnecting(new GuiMainMenu(), this, this.serverName, this.serverPort));
+            this.displayGuiScreen(new GuiConnecting(new AtlasMainMenuScreen(), this, this.serverName, this.serverPort));
         }
         else
         {
-            this.displayGuiScreen(new GuiMainMenu());
+            this.displayGuiScreen(new AtlasMainMenuScreen());
         }
 
         this.renderEngine.deleteTexture(this.mojangLogo);
@@ -894,7 +895,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (guiScreenIn == null && this.theWorld == null)
         {
-            guiScreenIn = new GuiMainMenu();
+            guiScreenIn = new AtlasMainMenuScreen();
         }
         else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F)
         {

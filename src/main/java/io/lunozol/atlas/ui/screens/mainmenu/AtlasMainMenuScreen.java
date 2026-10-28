@@ -2,6 +2,7 @@ package io.lunozol.atlas.ui.screens.mainmenu;
 
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
+import io.lunozol.atlas.system.cache.caches.ImageCache;
 import io.lunozol.atlas.ui.button.NewAtlasButton;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
@@ -9,6 +10,8 @@ import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderRabbit;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 
@@ -23,6 +26,7 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
     private int buttonHeight = 20;
     private int space = buttonWidth + padding;
     private boolean popUp;
+    private ImageCache imgCache;
 
     @Override
     public void initGui() {
@@ -32,12 +36,15 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
         quit = new NewAtlasButton("Quit", 3, space * 3, 0, buttonWidth, buttonHeight);
         confirm = new NewAtlasButton("Confirm", 4, padding, 10, buttonWidth, buttonHeight);
         cancel = new NewAtlasButton("Cancel", 5, padding * 2 + buttonWidth, 10, buttonWidth, buttonHeight);
+        ResourceLocation resourceLocation = new ResourceLocation("atlas/cat.jpg");
+        imgCache = new ImageCache(resourceLocation, RenderUtils.getImage(resourceLocation));
         super.initGui();
     }
     
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        RenderUtils.rect(0, 0, width, height, new Color(Atlas.waveColor).darker());
+//        RenderUtils.rect(0, 0, width, height, new Color(Atlas.waveColor).darker());
+        RenderUtils.drawImage(imgCache.getResourceLocation(), 0, 0, width, height, 1, new Color(Atlas.waveColor));
 
         float topRowX = ((float) width / 2) - (float) ((buttonWidth * 4) - (padding * 3)) / 2;
         float topRowY = ((float) height / 2) - ((float) buttonHeight / 2);
@@ -51,6 +58,13 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
         quit.drawButton();
 
         updateHover(mouseX, mouseY, topRowX, topRowY);
+
+        GlStateManager.popMatrix();
+
+        GlStateManager.pushMatrix();
+        GlStateManager.translate((float) width / 2 - ((float) (Constants.mc.fontRendererObj.getStringWidth(name) * 5) / 2), 50, 0);
+        GlStateManager.scale(5, 5, 1);
+        Constants.mc.fontRendererObj.drawStringWithShadow(name, 0, 0, Atlas.waveColor);
 
         GlStateManager.popMatrix();
 
