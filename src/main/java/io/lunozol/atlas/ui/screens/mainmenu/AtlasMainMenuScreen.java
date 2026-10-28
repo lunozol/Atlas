@@ -94,12 +94,12 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
         RenderUtils.rect(0, 0, width, height, RenderUtils.withAlpha(bg, 210));
 
         GlStateManager.pushMatrix();
-        int bWidth = (padding * 2) + (buttonWidth * 2);
-        int bHeight = 40;
+        int bWidth = (padding * 3) + (buttonWidth * 2);
+        int bHeight = 35;
         float x = (float) width / 2 - ((float) bWidth / 2);
         float y = (float) height / 2 - ((float) bHeight / 2);
         GlStateManager.translate(x, y, 1);
-        RenderUtils.rect(0, 0, bWidth, bHeight, bg.brighter().brighter());
+        RenderUtils.rect(0, 0, bWidth, bHeight, bg.brighter());
         Constants.mc.fontRendererObj.drawStringWithShadow("Are you sure you want to quit?", padding, padding, Color.white.getRGB());
         confirm.drawButton();
         cancel.drawButton();
