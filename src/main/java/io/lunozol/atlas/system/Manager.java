@@ -18,6 +18,7 @@ import io.lunozol.atlas.system.features.module.modules.client.TestModule;
 import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.system.features.widget.widgets.NotificationsWidget;
 import io.lunozol.atlas.system.features.widget.widgets.PlayerListWidget;
+import io.lunozol.atlas.system.features.widget.widgets.TabGUIWidget;
 import io.lunozol.atlas.system.features.widget.widgets.TargetInfoWidget;
 import lombok.Getter;
 
@@ -52,6 +53,7 @@ public class Manager implements Constants {
         widgets.add(new NotificationsWidget());
         widgets.add(new PlayerListWidget());
         widgets.add(new TargetInfoWidget());
+        widgets.add(new TabGUIWidget());
     }
 
     public List<Module> getEnabledModules() {
