@@ -14,6 +14,7 @@ public class DelayRemoverModule extends Module {
     private final BooleanProperty onlyOnPlace = new BooleanProperty("Clear Only on Place", "Limits to clearing the right delay only on block place", true);
     private final BooleanProperty left = new BooleanProperty("Remove Left Click Delay", "Removes the delay between left clicking", true);
     private final BooleanProperty jump = new BooleanProperty("Remove Jump Delay", "Removes the delay between jumping", true);
+
     public DelayRemoverModule() {
         super("DelayRemover", "Removes delay of certain things", ModuleCategory.PLAYER);
         registerSettings(right, onlyOnPlace, left, jump);

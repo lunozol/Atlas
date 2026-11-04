@@ -34,12 +34,16 @@ public abstract class Module implements Constants {
             this.enabled = state;
             if (state) {
                 onEnable();
-                Atlas.getInstance().getEventBus().subscribe(this);
-                NotificationEntry.registerNotification("Module Enabled", name + " was enabled!", true);
+                if (this.isEnabled()) { // you might be confused why i check this twice, after onEnable() is ran the module might be disabled by the logic therefore we can't be sure it would still be enabled! Thanks clumsy <3!
+                    Atlas.getInstance().getEventBus().subscribe(this);
+                    NotificationEntry.registerNotification("Module Enabled", name + " was enabled!", true);
+                }
             } else {
-                Atlas.getInstance().getEventBus().unsubscribe(this);
                 onDisable();
-                NotificationEntry.registerNotification("Module Disabled", name + " was disabled!", true);
+                if (!this.isEnabled()) {
+                    Atlas.getInstance().getEventBus().unsubscribe(this);
+                    NotificationEntry.registerNotification("Module Disabled", name + " was disabled!", true);
+                }
             }
         }
     }
