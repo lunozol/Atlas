@@ -4,10 +4,9 @@ import io.lunozol.atlas.system.features.module.property.Property;
 import lombok.Getter;
 import lombok.Setter;
 
-// not sure about this name ill make this some day
 @Getter
 @Setter
-public class SliderProperty extends Property {
+public class NumberProperty extends Property {
     private String name;
     private String description;
     private float value;
@@ -16,7 +15,7 @@ public class SliderProperty extends Property {
     private float step;
     private boolean hidden;
 
-    public SliderProperty(String name, String description, float value, float min, float max, float step) {
+    public NumberProperty(String name, String description, float value, float min, float max, float step) {
         this.name = name;
         this.description = description;
         this.value = value;

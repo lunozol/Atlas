@@ -4,18 +4,16 @@ import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.game.TickEvent;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
-import io.lunozol.atlas.system.features.module.property.properties.SliderProperty;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.game.InventoryUtil;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.inventory.GuiChest;
-import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
 
 public class ChestStealerModule extends Module {
-    public static final SliderProperty speed = new SliderProperty("Speed", "Speed at which the chest stealer steals per slot", 50, 0, 200, 1);
+    public static final NumberProperty speed = new NumberProperty("Speed", "Speed at which the chest stealer steals per slot", 50, 0, 200, 1);
     private long lastTaken;
 
     public ChestStealerModule() {

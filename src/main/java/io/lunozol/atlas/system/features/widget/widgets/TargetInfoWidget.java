@@ -3,6 +3,8 @@ package io.lunozol.atlas.system.features.widget.widgets;
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
+import io.lunozol.atlas.system.cache.Cache;
+import io.lunozol.atlas.system.cache.UniversalCache;
 import io.lunozol.atlas.system.cache.caches.EntityCache;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.features.widget.Widget;
@@ -14,13 +16,17 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.ResourceLocation;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import java.awt.*;
 
 // TODO extend widget
 
 public class TargetInfoWidget extends Widget {
-    private EntityCache entityCache;
+    private static final Log log = LogFactory.getLog(TargetInfoWidget.class);
+    UniversalCache cache = new UniversalCache();
     private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
     private int x = 300, y = 500;
     private long lastStateUpdate;
@@ -32,7 +38,7 @@ public class TargetInfoWidget extends Widget {
     }
 
     public boolean hasTarget() {
-        if (entityCache == null || entityCache.getEntity() == null || !Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().contains(entityCache.getEntity()) && !(mc.currentScreen instanceof GuiChat))
+        if (cache.getMap().get(Keys.ENTITY) == null || !Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().contains((EntityPlayer) cache.getMap().get(Keys.ENTITY)) && !(mc.currentScreen instanceof GuiChat))
             return false;
 
         return true;
@@ -44,27 +50,22 @@ public class TargetInfoWidget extends Widget {
         EntityPlayer target = mc.currentScreen instanceof GuiChat ? mc.thePlayer : Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().stream().findFirst().get();
 
         if (target != null) {
-            if (entityCache == null) {
-                entityCache = new EntityCache(target, target.getName(), target.getDisplayName().getFormattedText(), mc.thePlayer.getDistanceToEntity(target), target.getHealth(), target.getMaxHealth(), target.hurtTime, target.maxHurtTime, ((AbstractClientPlayer) target).getLocationSkin());
-                return;
-            }
-
-            entityCache.setEntity(target);
-            entityCache.setName(target.getName());
-            entityCache.setDisplayName(target.getDisplayName().getFormattedText());
-            entityCache.setDistFromPlayer(mc.thePlayer.getDistanceToEntity(target));
-            entityCache.setHealth(target.getHealth());
-            entityCache.setMaxHealth(target.getMaxHealth());
-            entityCache.setHurtTime(target.hurtTime);
-            entityCache.setMaxHurtTime(target.maxHurtTime);
-            entityCache.setLocationSkin(((AbstractClientPlayer) target).getLocationSkin());
+            cache.getMap().put(Keys.ENTITY, target);
+            cache.getMap().put(Keys.NAME, target.getName());
+            cache.getMap().put(Keys.DISPLAYNAME, target.getDisplayName().getFormattedText());
+            cache.getMap().put(Keys.DISTFROMPLAYER, mc.thePlayer.getDistanceToEntity(target));
+            cache.getMap().put(Keys.HEALTH, target.getHealth());
+            cache.getMap().put(Keys.MAXHEALTH, target.getMaxHealth());
+            cache.getMap().put(Keys.HURTTIME, target.hurtTime);
+            cache.getMap().put(Keys.MAXHURTTIME, target.maxHurtTime);
+            cache.getMap().put(Keys.LOCATIONSKIN, ((AbstractClientPlayer) target).getLocationSkin());
         }
     }
 
     @Listen
     public void onRender2D(Render2DEvent event) {
         updateTarget();
-        if (mc.thePlayer == null && entityCache == null) return;
+        if (cache.getMap().get(Keys.ENTITY) == null) return;
 
         if (hasTarget()) {
             animation.setEasing(Easing.EASE_OUT_CUBIC);
@@ -92,8 +93,8 @@ public class TargetInfoWidget extends Widget {
             int width = 110;
             int height = 30;
 
-            if (height + mc.fontRendererObj.getStringWidth(entityCache.getDisplayName()) > width) {
-                width = height + mc.fontRendererObj.getStringWidth(entityCache.getDisplayName()) + padding;
+            if (height + mc.fontRendererObj.getStringWidth((String) entityCache.getDisplayName()) > width) {
+                width = height + mc.fontRendererObj.getStringWidth((String)  entityCache.getDisplayName()) + padding;
             }
 
             GlStateManager.pushMatrix();
@@ -106,12 +107,12 @@ public class TargetInfoWidget extends Widget {
             // since the head is drawn at 8 pixels by default we have to do (height - (padding * 2)) / 8
             float headSize = (float) (height - (padding * 2)) / 8;
             int barWidth = width - height - padding;
-            double barProgress = entityCache.getHealth() / entityCache.getMaxHealth();
+            double barProgress = (double) cache.getMap().get(Keys.HEALTH) / (double) cache.getMap().get(Keys.MAXHEALTH);
 
-            RenderUtils.drawHead(entityCache.getLocationSkin(), padding, padding, headSize, Color.white);
+            RenderUtils.drawHead((ResourceLocation) cache.getMap().get(Keys.LOCATIONSKIN), padding, padding, headSize, Color.white);
 
-            mc.fontRendererObj.drawStringWithShadow(entityCache.getDisplayName(), height, padding, Color.white.getRGB());
-            mc.fontRendererObj.drawStringWithShadow(String.format("%.1f", entityCache.getHealth()), height, padding + 10, Color.white.getRGB());
+            mc.fontRendererObj.drawStringWithShadow((String) cache.getMap().get(Keys.DISPLAYNAME), height, padding, Color.white.getRGB());
+            mc.fontRendererObj.drawStringWithShadow(String.format("%.1f", (String) cache.getMap().get(Keys.HEALTH)), height, padding + 10, Color.white.getRGB());
 
             RenderUtils.rect(height, padding + 20, barWidth, 6, bg.darker());
             RenderUtils.gradientRect(height, padding + 20, (int) Math.round(barWidth * barProgress), 6, Atlas.firstColor, Atlas.firstColor.darker());
@@ -119,4 +120,16 @@ public class TargetInfoWidget extends Widget {
             GlStateManager.popMatrix();
         }
     }
+}
+
+enum Keys {
+    ENTITY,
+    NAME,
+    DISPLAYNAME,
+    DISTFROMPLAYER,
+    HEALTH,
+    MAXHEALTH,
+    HURTTIME,
+    MAXHURTTIME,
+    LOCATIONSKIN
 }

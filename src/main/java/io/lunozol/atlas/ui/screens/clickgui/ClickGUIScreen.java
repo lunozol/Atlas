@@ -8,10 +8,12 @@ import io.lunozol.atlas.system.features.module.modules.visual.ClickGUIModule;
 import io.lunozol.atlas.system.features.module.property.Property;
 import io.lunozol.atlas.system.features.module.property.properties.BooleanProperty;
 import io.lunozol.atlas.system.features.module.property.properties.ModeProperty;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.system.features.module.property.properties.TextProperty;
 import io.lunozol.atlas.ui.screens.clickgui.property.PanelProperty;
 import io.lunozol.atlas.ui.screens.clickgui.property.properties.BooleanPanel;
 import io.lunozol.atlas.ui.screens.clickgui.property.properties.ModePanel;
+import io.lunozol.atlas.ui.screens.clickgui.property.properties.NumberPanel;
 import io.lunozol.atlas.ui.screens.clickgui.property.properties.TextPanel;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
@@ -84,9 +86,10 @@ public class ClickGUIScreen extends GuiScreen {
                         panelList.add(new ModePanel((ModeProperty) property, settingHeight));
                     } else if (property instanceof TextProperty) {
                         panelList.add(new TextPanel(((TextProperty) property)));
+                    } else if (property instanceof NumberProperty) {
+                        panelList.add(new NumberPanel((NumberProperty) property));
                     }
                 }
-
                 settings.put(module, panelList);
             }
         }
@@ -183,6 +186,10 @@ public class ClickGUIScreen extends GuiScreen {
                                 }
 
                                 if (property instanceof TextPanel) {
+                                    property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
+                                }
+
+                                if (property instanceof NumberPanel) {
                                     property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
                                 }
 
