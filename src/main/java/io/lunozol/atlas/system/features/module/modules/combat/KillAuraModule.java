@@ -2,11 +2,20 @@ package io.lunozol.atlas.system.features.module.modules.combat;
 
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
+import io.lunozol.atlas.system.event.events.game.MotionEvent;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
+import io.lunozol.atlas.utils.game.ChatUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 
 import java.util.ArrayList;
@@ -29,62 +38,62 @@ public class KillAuraModule extends Module {
     }
 
     private void updateTarget() {
-        targets.clear();
-        if (Atlas.getInstance().getFinder().getTargetFinder().getPlayerTargets().isEmpty()) {
-            target = null;
-            return;
-        }
+        targets =  Atlas.getInstance().getFinder().getTargetFinder().getPlayerTargets();
 
-        targets = Atlas.getInstance().getFinder().getTargetFinder().getPlayerTargets();
-
-        target = targets.stream().sorted(Comparator.comparingDouble(t -> -mc.thePlayer.getDistanceToEntity(t))).collect(Collectors.toList()).stream().findFirst().get();
+        ChatUtil.send(targets.toString());
     }
 
     @Listen
-    public void onGameLoop(Render2DEvent event) {
+    public void onMotion(MotionEvent event) {
         updateTarget();
-        if (mc.thePlayer == null || target == null) return;
+        if (mc.thePlayer == null || targets.isEmpty()) return;
+        mc.thePlayer.setItemInUse(mc.thePlayer.getHeldItem(), 1);
 
-        faceEntity(target, 180);
+        target = targets.stream().findFirst().get();
 
+//        faceEntity(target, 180);
+
+        event.setYaw(getRotations(target)[0]);
+        event.setPitch(getRotations(target)[1]);
+
+       if (calculateCPS(System.currentTimeMillis())) {
+           ChatUtil.send(target.getName());
+           mc.getNetHandler().addToSendQueue(
+                   new C07PacketPlayerDigging(
+                           C07PacketPlayerDigging.Action.RELEASE_USE_ITEM,
+                           BlockPos.ORIGIN,
+                           EnumFacing.DOWN
+                   )
+           );
+
+           mc.getNetHandler().addToSendQueue(
+                   new C08PacketPlayerBlockPlacement(
+                           mc.thePlayer.getHeldItem()
+                   )
+           );
+           mc.thePlayer.swingItem();
+           mc.getNetHandler().addToSendQueue(
+                   new C02PacketUseEntity(target, C02PacketUseEntity.Action.ATTACK)
+           );
+       }
     }
 
-    private boolean faceEntity(Entity entity, double speed) {
-        double diffX = entity.posX - mc.thePlayer.posX;
-        double diffY = (entity.posY + entity.getEyeHeight()) - (mc.thePlayer.posZ + mc.thePlayer.getEyeHeight());
-        double diffZ = entity.posZ - mc.thePlayer.posZ;
+    public float[] getRotations(Entity entity) {
+        double deltaX = entity.posX + (entity.posX - entity.lastTickPosX) - mc.thePlayer.posX, // difference between entity position x so we can interpolate between it
+                deltaY = entity.posY - 3.5 + entity.getEyeHeight() - mc.thePlayer.posY + mc.thePlayer.getEyeHeight(),
+                deltaZ = entity.posZ + (entity.posZ - entity.lastTickPosZ) - mc.thePlayer.posZ,
+                distance = Math.sqrt(Math.pow(deltaX, 2) + Math.pow(deltaZ, 2));
 
-        double distXZ = Math.sqrt(diffX * diffX + diffZ * diffZ);
+        float yaw = (float) Math.toDegrees(-Math.atan(deltaX / deltaZ)),
+                pitch = (float) -Math.toDegrees(Math.atan(deltaY / distance));
 
-        float targetYaw = (float) (Math.toDegrees(Math.atan2(diffZ, diffX)) - 90.0f);
-        float targetPitch = (float) (-Math.toDegrees(Math.atan2(diffY, diffZ)));
-
-        float currYaw = mc.thePlayer.rotationYaw;
-        float currPitch = mc.thePlayer.rotationPitch;
-
-        float yawDiff = MathHelper.wrapAngleTo180_float(targetYaw - currYaw);
-        float pitchDiff = MathHelper.wrapAngleTo180_float(targetPitch - currPitch);
-
-        float rotationStep = (float) speed;
-        boolean yawComplete = false;
-        boolean pitchComplete = false;
-
-        if (Math.abs(yawDiff) > rotationStep) {
-            yawDiff = (yawDiff > 0) ? rotationStep : -rotationStep;
-        } else {
-            yawComplete = true;
+        if (deltaX < 0 && deltaZ < 0) {
+            yaw = (float) (90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
+        } else if (deltaX < 0 && deltaZ > 0) {
+            yaw = (float) (-90 + Math.toDegrees(Math.atan(deltaZ / deltaX)));
         }
 
-        if (Math.abs(pitchDiff) > rotationStep) {
-            pitchDiff = (pitchDiff > 0) ? rotationStep : -rotationStep;
-        } else {
-            pitchComplete = true;
-        }
-
-        mc.thePlayer.rotationYaw += yawDiff;
-        mc.thePlayer.rotationPitch += pitchDiff;
-
-        return yawComplete && pitchComplete;
+        return new float[] {yaw, pitch};
     }
 
     private boolean calculateCPS(long time) {

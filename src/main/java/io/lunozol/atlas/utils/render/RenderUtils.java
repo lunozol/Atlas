@@ -24,30 +24,14 @@ import java.util.Locale;
 public class RenderUtils implements Constants {
     public static final ScaledResolution scaledResolution = new ScaledResolution(mc);
 
-    public static void rect(int x, int y, int width, int height, Color color) {
-        Gui.drawRect(x, y, x + width, y + height, color.getRGB());
-    }
-
-    public static void drawRect(float x, float y, float width, float height, Color color)
+    public static void rect(float x, float y, float width, float height, Color color)
     {
+        float left = x;
+        float top = y;
         float right = x + width;
         float bottom = y + height;
-        if (x < width)
-        {
-            float i = x;
-            x = width;
-            right = i;
-        }
-
-        if (y < bottom)
-        {
-            float j = y;
-            y = bottom;
-            bottom = j;
-        }
 
         int c = color.getRGB();
-
         float f3 = (float)(c >> 24 & 255) / 255.0F;
         float f = (float)(c >> 16 & 255) / 255.0F;
         float f1 = (float)(c >> 8 & 255) / 255.0F;
@@ -59,10 +43,10 @@ public class RenderUtils implements Constants {
         GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
         GlStateManager.color(f, f1, f2, f3);
         worldrenderer.begin(7, DefaultVertexFormats.POSITION);
-        worldrenderer.pos(x, bottom, 0.0D).endVertex();
+        worldrenderer.pos(left, bottom, 0.0D).endVertex();
         worldrenderer.pos(right, bottom, 0.0D).endVertex();
-        worldrenderer.pos(right, y, 0.0D).endVertex();
-        worldrenderer.pos(x, y, 0.0D).endVertex();
+        worldrenderer.pos(right, top, 0.0D).endVertex();
+        worldrenderer.pos(left, top, 0.0D).endVertex();
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
@@ -73,7 +57,7 @@ public class RenderUtils implements Constants {
         return false;
     }
 
-    public static void gradientRect(int x, int y, int width, int height, Color startColor, Color endColor) {
+    public static void gradientRect(float x, float y, float width, float height, Color startColor, Color endColor) {
         GlStateManager.disableTexture2D();
         GlStateManager.enableBlend();
         GlStateManager.disableAlpha();

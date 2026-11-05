@@ -125,7 +125,7 @@ public class InterfaceModule extends Module {
                     float factor = (float) (1 - entry.getAnimation().getValue());
                     float offsetX = (rectWidth + padding) * factor;
                     float offsetY = (rectHeight) * factor;
-                    int x = event.getScaledResolution().getScaledWidth() - rectWidth + Math.round(offsetX);
+                    float x = event.getScaledResolution().getScaledWidth() - rectWidth + offsetX;
                     int color3 = RenderUtils.wave(Atlas.firstColor.getRGB(), Atlas.secondColor.getRGB(), System.currentTimeMillis(), i);
 
                     GlStateManager.pushMatrix();

@@ -21,12 +21,13 @@ public class TargetFinder implements Constants {
     private final List<EntityPlayer> hoveredTargets = new ArrayList<>();
 
     @Setter
-    public double distanceReq = 3.5;
+    public double distanceReq = 4.3f;
 
     @Listen
     public void onTick(TickEvent event) {
         playerTargets.clear();
-        hoveredTargets.clear();
+
+        distanceReq = 5f;
 
         if (mc.thePlayer == null || mc.theWorld == null) return;
 

@@ -32,16 +32,19 @@ public class NewAtlasButton implements Constants {
         animation.run(hovered ? 1 : 2);
 
         float factor = (float) (1 - animation.getValue());
+        float div = (float) (animation.getValue() / 2);
         int additionAlpha = Math.round(55 * factor);
         int alpha = 200 + additionAlpha;
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(x, y, 1);
         float textY = ((float) height / 2) - ((float) mc.fontRendererObj.FONT_HEIGHT / 2);
-        int barWidth = (int) Math.round((width - (padding * 2)) / animation.getValue());
+        float barWidth = (float) (width / animation.getValue());
+        float spacing = padding * div;
+        float barY = (float) (height - 1 - spacing);
 
         RenderUtils.rect(0, 0, width, height, RenderUtils.withAlpha(bg, alpha));
-        RenderUtils.gradientRect((width / 2) - (barWidth / 2), height - 2 - padding, barWidth, 2, firstColor, firstColor.darker());
+        RenderUtils.gradientRect(((float) width / 2) - (barWidth / 2), barY, barWidth, 2, firstColor, firstColor.darker());
 
         mc.fontRendererObj.drawStringWithShadow(this.title, ((float) width / 2) - ((float) mc.fontRendererObj.getStringWidth(this.title) / 2), textY, Color.white.getRGB());
 

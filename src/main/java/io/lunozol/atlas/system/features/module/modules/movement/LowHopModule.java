@@ -19,7 +19,7 @@ public class LowHopModule extends Module {
 
         switch (mc.thePlayer.offGroundTicks) {
             case 6:
-                mc.thePlayer.motionY -= 0.1f;
+                mc.thePlayer.motionY -= 0.07f;
         }
     }
 }
