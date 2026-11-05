@@ -4,6 +4,7 @@ import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.system.features.module.property.Property;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,7 +13,7 @@ import java.util.Arrays;
 import java.util.List;
 
 @Getter
-public class Widget implements Constants {
+public abstract class Widget implements Constants {
     private final List<Property> settings = new ArrayList<>();
     private final String name;
     private final String description;
@@ -51,4 +52,11 @@ public class Widget implements Constants {
     public void onEnable(){}
 
     public void onDisable(){}
+
+    public abstract float getX();
+    public abstract float getY();
+    public abstract float setX(float x);
+    public abstract float setY(float y);
+    public abstract float getWidth();
+    public abstract float getHeight();
 }

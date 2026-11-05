@@ -2,15 +2,12 @@ package io.lunozol.atlas.ui.screens.mainmenu;
 
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.Constants;
-import io.lunozol.atlas.system.cache.caches.ImageCache;
+import io.lunozol.atlas.system.cache.Cache;
 import io.lunozol.atlas.ui.button.NewAtlasButton;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderRabbit;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
@@ -26,7 +23,7 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
     private int buttonHeight = 20;
     private int space = buttonWidth + padding;
     private boolean popUp;
-    private ImageCache imgCache;
+    private final Cache cache = new Cache();
 
     @Override
     public void initGui() {
@@ -36,15 +33,18 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
         quit = new NewAtlasButton("Quit", 3, space * 3, 0, buttonWidth, buttonHeight);
         confirm = new NewAtlasButton("Confirm", 4, padding, 10, buttonWidth, buttonHeight);
         cancel = new NewAtlasButton("Cancel", 5, padding * 2 + buttonWidth, 10, buttonWidth, buttonHeight);
+
         ResourceLocation resourceLocation = new ResourceLocation("atlas/cat.jpg");
-        imgCache = new ImageCache(resourceLocation, RenderUtils.getImage(resourceLocation));
+        cache.getMap().put(Keys.RESOURCELOCATION, resourceLocation);
+        cache.getMap().put(Keys.BUFFEREDIMAGE, RenderUtils.getImage(resourceLocation));
+
         super.initGui();
     }
     
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 //        RenderUtils.rect(0, 0, width, height, new Color(Atlas.waveColor).darker());
-        RenderUtils.drawImage(imgCache.getResourceLocation(), 0, 0, width, height, 1, new Color(Atlas.waveColor));
+        RenderUtils.drawImage((ResourceLocation) cache.getMap().get(Keys.RESOURCELOCATION), 0, 0, width, height, 1, new Color(Atlas.waveColor));
 
         float topRowX = ((float) width / 2) - (float) ((buttonWidth * 4) - (padding * 3)) / 2;
         float topRowY = ((float) height / 2) - ((float) buttonHeight / 2);
@@ -130,4 +130,8 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
             }
         }
     }
+}
+enum Keys {
+    RESOURCELOCATION,
+    BUFFEREDIMAGE
 }

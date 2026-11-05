@@ -1,5 +1,11 @@
 package io.lunozol.atlas.system.cache;
 
-// a system to cache variables will probably never make but would be nice to have
-public abstract class Cache {
+import lombok.Getter;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Getter
+public class Cache<K, V> {
+    private Map<K, V> map = new HashMap<>();
 }

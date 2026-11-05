@@ -2,13 +2,10 @@ package io.lunozol.atlas.system.features.widget.widgets;
 
 import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
-import io.lunozol.atlas.Constants;
 import io.lunozol.atlas.system.cache.Cache;
-import io.lunozol.atlas.system.cache.UniversalCache;
-import io.lunozol.atlas.system.cache.caches.EntityCache;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.system.features.widget.Widget;
-import io.lunozol.atlas.utils.client.BotCheckUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.animation.Animation;
 import io.lunozol.atlas.utils.render.animation.Easing;
@@ -22,11 +19,8 @@ import org.apache.commons.logging.LogFactory;
 
 import java.awt.*;
 
-// TODO extend widget
-
 public class TargetInfoWidget extends Widget {
-    private static final Log log = LogFactory.getLog(TargetInfoWidget.class);
-    UniversalCache cache = new UniversalCache();
+    Cache cache = new Cache();
     private final Animation animation = new Animation(Easing.EASE_IN_OUT_CUBIC, 250);
     private int x = 300, y = 500;
     private long lastStateUpdate;
@@ -93,8 +87,8 @@ public class TargetInfoWidget extends Widget {
             int width = 110;
             int height = 30;
 
-            if (height + mc.fontRendererObj.getStringWidth((String) entityCache.getDisplayName()) > width) {
-                width = height + mc.fontRendererObj.getStringWidth((String)  entityCache.getDisplayName()) + padding;
+            if (height + mc.fontRendererObj.getStringWidth((String) cache.getMap().get(Keys.DISPLAYNAME)) > width) {
+                width = height + mc.fontRendererObj.getStringWidth((String) cache.getMap().get(Keys.DISPLAYNAME)) + padding;
             }
 
             GlStateManager.pushMatrix();
@@ -107,12 +101,12 @@ public class TargetInfoWidget extends Widget {
             // since the head is drawn at 8 pixels by default we have to do (height - (padding * 2)) / 8
             float headSize = (float) (height - (padding * 2)) / 8;
             int barWidth = width - height - padding;
-            double barProgress = (double) cache.getMap().get(Keys.HEALTH) / (double) cache.getMap().get(Keys.MAXHEALTH);
+            float barProgress = (float) cache.getMap().get(Keys.HEALTH) / (float) cache.getMap().get(Keys.MAXHEALTH);
 
             RenderUtils.drawHead((ResourceLocation) cache.getMap().get(Keys.LOCATIONSKIN), padding, padding, headSize, Color.white);
 
             mc.fontRendererObj.drawStringWithShadow((String) cache.getMap().get(Keys.DISPLAYNAME), height, padding, Color.white.getRGB());
-            mc.fontRendererObj.drawStringWithShadow(String.format("%.1f", (String) cache.getMap().get(Keys.HEALTH)), height, padding + 10, Color.white.getRGB());
+            mc.fontRendererObj.drawStringWithShadow(String.format("%.1f", cache.getMap().get(Keys.HEALTH)), height, padding + 10, Color.white.getRGB());
 
             RenderUtils.rect(height, padding + 20, barWidth, 6, bg.darker());
             RenderUtils.gradientRect(height, padding + 20, (int) Math.round(barWidth * barProgress), 6, Atlas.firstColor, Atlas.firstColor.darker());
@@ -120,16 +114,46 @@ public class TargetInfoWidget extends Widget {
             GlStateManager.popMatrix();
         }
     }
-}
 
-enum Keys {
-    ENTITY,
-    NAME,
-    DISPLAYNAME,
-    DISTFROMPLAYER,
-    HEALTH,
-    MAXHEALTH,
-    HURTTIME,
-    MAXHURTTIME,
-    LOCATIONSKIN
+    @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
+    }
+
+    @Override
+    public float setX(float x) {
+        return 0;
+    }
+
+    @Override
+    public float setY(float y) {
+        return 0;
+    }
+
+    @Override
+    public float getWidth() {
+        return 0;
+    }
+
+    @Override
+    public float getHeight() {
+        return 0;
+    }
+
+    enum Keys {
+        ENTITY,
+        NAME,
+        DISPLAYNAME,
+        DISTFROMPLAYER,
+        HEALTH,
+        MAXHEALTH,
+        HURTTIME,
+        MAXHURTTIME,
+        LOCATIONSKIN
+    }
 }

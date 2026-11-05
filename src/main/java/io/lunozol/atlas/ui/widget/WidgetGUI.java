@@ -17,7 +17,7 @@ public class WidgetGUI implements Constants {
     private WidgetSettings openedWidget;
 
     public static void draw(int x, int y, int mouseX, int mouseY) {
-        animation.run(canDraw ? 1 : -5);
+        animation.run(canDraw ? 1 : -6);
 
         button.setX(x - (button.getWidth() / 2));
         button.setY(y - (button.getHeight()) / 2);
@@ -26,7 +26,7 @@ public class WidgetGUI implements Constants {
 
         if (animation.getValue() > -5) {
             GlStateManager.pushMatrix();
-            widgetBox.draw(x, (int) Math.round((y + button.getHeight() + padding) * animation.getValue()), mouseX, mouseY);
+            widgetBox.draw(x, (int) Math.round((y + button.getHeight() + padding) * animation.getValue()), mouseX, mouseY, animation.isFinished());
             GlStateManager.popMatrix();
         }
 

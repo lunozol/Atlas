@@ -4,6 +4,7 @@ import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.features.module.modules.visual.entry.Entry;
 import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.NotificationEntry;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.system.features.widget.Widget;
 import net.minecraft.client.renderer.GlStateManager;
 
@@ -43,5 +44,35 @@ public class NotificationsWidget extends Widget {
     @Override
     public void onEnable() {
         Entry.getNotificationEntries().clear();
+    }
+
+    @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
+    }
+
+    @Override
+    public float setX(float x) {
+        return 0;
+    }
+
+    @Override
+    public float setY(float y) {
+        return 0;
+    }
+
+    @Override
+    public float getWidth() {
+        return 0;
+    }
+
+    @Override
+    public float getHeight() {
+        return 0;
     }
 }

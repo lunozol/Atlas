@@ -12,7 +12,7 @@ import java.util.List;
 public class WidgetBox implements Constants {
     private final List<WidgetPanel> widgetPanels = new ArrayList<>();
 
-    public void draw(int x, int y, int mouseX, int mouseY) {
+    public void draw(int x, int y, int mouseX, int mouseY, boolean animFinished) {
         if (widgetPanels.isEmpty()) {
             for (Widget widget : Atlas.getInstance().getManager().getWidgets()) {
                 widgetPanels.add(new WidgetPanel(widget));
@@ -30,19 +30,15 @@ public class WidgetBox implements Constants {
         int yB = y + padding;
         int index = 1;
         for (WidgetPanel widgetPanel : widgetPanels) {
-            widgetPanel.draw(xB, yB, mouseX, mouseY);
+            widgetPanel.draw(xB, yB, mouseX, mouseY, animFinished);
 
             xB += 75 + padding;
             index++;
 
             if (index == 4) {
-                yB += height + padding;
+                yB += 27 + padding;
                 xB = xd + padding;
                 index = 1;
-            }
-
-            if (widgetPanel.getOpenedWidget() != null) {
-//                widgetPanel.getWidgetSetting().draw(mouseX, mouseY, x, y, width, height);
             }
         }
     }

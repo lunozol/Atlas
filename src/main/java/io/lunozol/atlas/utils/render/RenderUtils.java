@@ -28,6 +28,46 @@ public class RenderUtils implements Constants {
         Gui.drawRect(x, y, x + width, y + height, color.getRGB());
     }
 
+    public static void drawRect(float x, float y, float width, float height, Color color)
+    {
+        float right = x + width;
+        float bottom = y + height;
+        if (x < width)
+        {
+            float i = x;
+            x = width;
+            right = i;
+        }
+
+        if (y < bottom)
+        {
+            float j = y;
+            y = bottom;
+            bottom = j;
+        }
+
+        int c = color.getRGB();
+
+        float f3 = (float)(c >> 24 & 255) / 255.0F;
+        float f = (float)(c >> 16 & 255) / 255.0F;
+        float f1 = (float)(c >> 8 & 255) / 255.0F;
+        float f2 = (float)(c & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(f, f1, f2, f3);
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(x, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, y, 0.0D).endVertex();
+        worldrenderer.pos(x, y, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
     public static boolean hovered(float mouseX, float mouseY, int x, int y, int width, int height) {
         if (mouseX >= x && mouseX <= x + width && mouseY >= y && mouseY <= y + height) return true;
         return false;

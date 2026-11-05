@@ -5,6 +5,7 @@ import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.event.events.render.RenderGuiChatEvent;
 import io.lunozol.atlas.system.features.module.modules.visual.entry.Entry;
 import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.PlayerListEntry;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import org.lwjgl.input.Mouse;
@@ -51,5 +52,35 @@ public class PlayerListWidget extends Widget {
         for (PlayerListEntry entry : Entry.getPlayerListEntries()) {
             entry.reset(y);
         }
+    }
+
+    @Override
+    public float getX() {
+        return 0;
+    }
+
+    @Override
+    public float getY() {
+        return 0;
+    }
+
+    @Override
+    public float setX(float x) {
+        return 0;
+    }
+
+    @Override
+    public float setY(float y) {
+        return 0;
+    }
+
+    @Override
+    public float getWidth() {
+        return 0;
+    }
+
+    @Override
+    public float getHeight() {
+        return 0;
     }
 }
