@@ -4,6 +4,7 @@ import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.Atlas;
 import io.lunozol.atlas.system.cache.Cache;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
+import io.lunozol.atlas.system.features.module.modules.combat.KillAuraModule;
 import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.utils.render.RenderUtils;
@@ -25,23 +26,29 @@ public class TargetInfoWidget extends Widget {
     private int x = 300, y = 500;
     private long lastStateUpdate;
     private boolean wasDrawn = false;
-    private final long delay = 2000;
+    private final long delay = 1000;
 
     public TargetInfoWidget() {
         super("TargetInfo", "Displays target information");
     }
 
     public boolean hasTarget() {
-        if (cache.getMap().get(Keys.ENTITY) == null || !Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().contains((EntityPlayer) cache.getMap().get(Keys.ENTITY)) && !(mc.currentScreen instanceof GuiChat))
+        if (cache.getMap().get(Keys.ENTITY) == null || Atlas.getInstance().getManager().getModule(KillAuraModule.class).getTarget() == null || !Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().contains((EntityPlayer) cache.getMap().get(Keys.ENTITY)) && !(mc.currentScreen instanceof GuiChat))
             return false;
 
         return true;
     }
 
     public void updateTarget() {
-        if (Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().isEmpty() && !(mc.currentScreen instanceof GuiChat)) return;
+        EntityPlayer target = null;
 
-        EntityPlayer target = mc.currentScreen instanceof GuiChat ? mc.thePlayer : Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().stream().findFirst().get();
+        if (Atlas.getInstance().getManager().getModule(KillAuraModule.class).getTarget() != null) {
+            target = Atlas.getInstance().getManager().getModule(KillAuraModule.class).getTarget();
+        } else if (!Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().isEmpty()) {
+            target = Atlas.getInstance().getFinder().getTargetFinder().getHoveredTargets().stream().findFirst().get();
+        } else if (mc.currentScreen instanceof GuiChat) {
+            target = mc.thePlayer;
+        }
 
         if (target != null) {
             cache.getMap().put(Keys.ENTITY, target);

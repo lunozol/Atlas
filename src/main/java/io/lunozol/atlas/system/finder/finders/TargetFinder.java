@@ -26,6 +26,7 @@ public class TargetFinder implements Constants {
     @Listen
     public void onTick(TickEvent event) {
         playerTargets.clear();
+        hoveredTargets.clear();
 
         distanceReq = 5f;
 

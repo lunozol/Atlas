@@ -67,13 +67,13 @@ public class Manager implements Constants {
         return modules.stream().filter(m -> m.getCategory().equals(category)).collect(Collectors.toList());
     }
 
-    public Module getModule(Class module) {
+    public <T extends Module> T getModule(Class<T> clazz) {
         for (Module mod : modules) {
-            if (mod.getClass().equals(module)) {
-                return mod;
+            if (mod.getClass().equals(clazz)) {
+                return clazz.cast(mod);
             }
         }
-        System.out.println("Failed to get module from Manager");
+
         return null;
     }
 

@@ -7,9 +7,11 @@ import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
 import io.lunozol.atlas.utils.game.ChatUtil;
+import lombok.Getter;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -24,9 +26,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-// Mostly from @Aznos tutorial
+// Intent Tutorial :money_mouth:
 public class KillAuraModule extends Module {
     private List<EntityPlayer> targets = new ArrayList<>();
+    @Getter
     private EntityPlayer target;
     long lastClick;
     long cps = 50;
@@ -39,14 +42,12 @@ public class KillAuraModule extends Module {
 
     private void updateTarget() {
         targets =  Atlas.getInstance().getFinder().getTargetFinder().getPlayerTargets();
-
-        ChatUtil.send(targets.toString());
     }
 
     @Listen
     public void onMotion(MotionEvent event) {
         updateTarget();
-        if (mc.thePlayer == null || targets.isEmpty()) return;
+        if (mc.thePlayer == null || targets.isEmpty() || (mc.thePlayer.getHeldItem() != null) && !(mc.thePlayer.getHeldItem().getItem() instanceof ItemSword)) return;
         mc.thePlayer.setItemInUse(mc.thePlayer.getHeldItem(), 1);
 
         target = targets.stream().findFirst().get();
@@ -58,13 +59,13 @@ public class KillAuraModule extends Module {
 
        if (calculateCPS(System.currentTimeMillis())) {
            ChatUtil.send(target.getName());
-           mc.getNetHandler().addToSendQueue(
-                   new C07PacketPlayerDigging(
-                           C07PacketPlayerDigging.Action.RELEASE_USE_ITEM,
-                           BlockPos.ORIGIN,
-                           EnumFacing.DOWN
-                   )
-           );
+//           mc.getNetHandler().addToSendQueue(
+//                   new C07PacketPlayerDigging(
+//                           C07PacketPlayerDigging.Action.RELEASE_USE_ITEM,
+//                           BlockPos.ORIGIN,
+//                           EnumFacing.DOWN
+//                   )
+//           );
 
            mc.getNetHandler().addToSendQueue(
                    new C08PacketPlayerBlockPlacement(

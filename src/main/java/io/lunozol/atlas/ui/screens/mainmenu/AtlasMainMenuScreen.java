@@ -7,6 +7,7 @@ import io.lunozol.atlas.ui.button.NewAtlasButton;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.main.GameConfiguration;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
@@ -24,6 +25,9 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
     private int space = buttonWidth + padding;
     private boolean popUp;
     private final Cache cache = new Cache();
+    private int fps = 15;
+    private int Gindex = 00;
+    private long Gtime = 0;
 
     @Override
     public void initGui() {
@@ -68,9 +72,31 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
 
         GlStateManager.popMatrix();
 
+        ResourceLocation resourceLocation = new ResourceLocation("atlas/gif/" + drawGif());
+
+        RenderUtils.drawImage(resourceLocation, RenderUtils.getImage(resourceLocation), 20, 20, 1, Color.white);
+
         if (popUp) {
             renderPopUp(mouseX, mouseY);
         }
+    }
+
+    private String drawGif() {
+        int delay = 1000 / fps;
+        int amount = 41;
+
+        if (Gtime <= System.currentTimeMillis()) {
+            if (Gindex < amount) {
+                Gindex++;
+                Gtime = System.currentTimeMillis() + delay;
+            } else {
+                System.out.println("aaa");
+                Gindex = 0;
+                Gtime = System.currentTimeMillis() + delay;
+            }
+        }
+
+        return "frame_" + Gindex + "_delay-0.05s.gif";
     }
 
     private void updateHover(int mouseX, int mouseY, float topRowX, float topRowY) {
@@ -133,5 +159,7 @@ public class AtlasMainMenuScreen extends GuiScreen implements Constants {
 }
 enum Keys {
     RESOURCELOCATION,
-    BUFFEREDIMAGE
+    BUFFEREDIMAGE,
+    GRESOURCELOCATION,
+    GBUFFEREDIMAGE
 }
