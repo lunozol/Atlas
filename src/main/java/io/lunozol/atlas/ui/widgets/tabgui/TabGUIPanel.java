@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import javax.print.DocFlavor;
 import java.awt.*;
 import java.security.Key;
 import java.util.ArrayList;
@@ -91,6 +92,8 @@ public class TabGUIPanel implements Constants {
     }
 
     public void handleInput() {
+        if (mc.currentScreen == Atlas.getInstance().getClickGUIScreen()) return;
+
         if (!Keyboard.isKeyDown(Keyboard.KEY_DOWN) && !Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && !Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RETURN)) wasMoved = false;
 
         if (!wasMoved) {

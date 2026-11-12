@@ -3,6 +3,7 @@ package io.lunozol.atlas.system.features.module.property.properties;
 import io.lunozol.atlas.system.features.module.property.Property;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.util.MathHelper;
 
 @Getter
 @Setter
@@ -22,6 +23,11 @@ public class NumberProperty extends Property {
         this.min = min;
         this.max = max;
         this.step = step;
+    }
+
+    public void setValue(float value) {
+        this.value = MathHelper.clamp_float(value, min, max);
+        System.out.println(this.value);
     }
 
     @Override

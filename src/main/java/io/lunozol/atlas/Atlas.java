@@ -19,7 +19,7 @@ public class Atlas implements Constants {
     @Getter
     private final ClickGUIScreen clickGUIScreen = new ClickGUIScreen();
     @Getter
-    private final Finder finder = Finder.finder;
+    private final Finder finder = new Finder();
 
     public static int waveColor = RenderUtils.wave(firstColor.getRGB(), secondColor.getRGB(), System.currentTimeMillis(), 0);
 

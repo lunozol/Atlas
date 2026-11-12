@@ -188,15 +188,7 @@ public class ClickGUIScreen extends GuiScreen {
                                     hasLeftClicked = ((ModePanel) property).hasClicked || hasLeftClicked;
                                 }
 
-                                if (property instanceof TextPanel) {
-                                    property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
-                                }
-
-                                if (property instanceof NumberPanel) {
-                                    property.draw(mouseX, mouseY, x, sY, panelWidth, settingHeight);
-                                }
-
-                                sY += settingHeight;
+                                sY += property.getHeight();
                                 settingHeight = 12;
                             }
                         }

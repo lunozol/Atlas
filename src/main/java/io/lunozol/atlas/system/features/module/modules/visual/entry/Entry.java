@@ -7,6 +7,7 @@ import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.Modu
 import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.NotificationEntry;
 import io.lunozol.atlas.system.features.module.modules.visual.entry.entries.PlayerListEntry;
 import io.lunozol.atlas.utils.client.BotCheckUtil;
+import io.lunozol.atlas.utils.client.DebugUtil;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import lombok.Getter;
 import net.minecraft.entity.Entity;
@@ -29,12 +30,12 @@ public abstract class Entry implements Constants {
         if (!forceAdd) {
             if (notificationEntries.stream().noneMatch(e -> e.getDescription().equals(entry.getDescription()))) {
                 notificationEntries.add(entry);
-                if (debug) {
+                if (debug && DebugUtil.canDebugNotifRegisters()) {
                     System.out.println("registered notification " + entry.getDescription());
                 }
                 return;
             }
-            if (debug) {
+            if (debug && DebugUtil.canDebugNotifRejects()) {
                 ChatUtil.send("rejected notification " + entry.getDescription());
             }
         } else {

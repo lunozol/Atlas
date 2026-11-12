@@ -7,7 +7,6 @@ import lombok.Getter;
 
 @Getter
 public class Finder implements Constants {
-    public static Finder finder = new Finder();
     private final TargetFinder targetFinder = new TargetFinder();
 
     public void init() {

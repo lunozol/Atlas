@@ -4,6 +4,7 @@ import io.github.nevalackin.radbus.Listen;
 import io.lunozol.atlas.system.event.events.render.Render2DEvent;
 import io.lunozol.atlas.system.features.module.Module;
 import io.lunozol.atlas.system.features.module.ModuleCategory;
+import io.lunozol.atlas.system.features.module.property.properties.NumberProperty;
 import io.lunozol.atlas.utils.game.ChatUtil;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import io.lunozol.atlas.utils.render.TestAnimation;
@@ -16,6 +17,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 
 public class TestModule extends Module {
+    private final NumberProperty testProperty = new NumberProperty("Test", "dddd", 50, 0, 100, 1);
     private final TestAnimation animation = new TestAnimation(5000, false);
     private float value = 1;
     private boolean flip = true;
@@ -24,6 +26,7 @@ public class TestModule extends Module {
 
     public TestModule() {
         super("Test", "Module to test stuff", ModuleCategory.CLIENT);
+        registerSettings(testProperty);
     }
 
     @Listen

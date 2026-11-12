@@ -26,4 +26,9 @@ public class TextPanel extends PanelProperty {
     public boolean isHidden() {
         return property.isHidden();
     }
+
+    @Override
+    public int getHeight() {
+        return 12;
+    }
 }

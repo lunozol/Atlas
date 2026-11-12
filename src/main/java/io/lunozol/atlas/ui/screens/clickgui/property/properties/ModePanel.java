@@ -33,9 +33,9 @@ public class ModePanel extends PanelProperty {
         if (!Mouse.isButtonDown(0)) hasClicked = false;
         if (Arrays.stream(property.getValues()).count() < 2) expanded = false;
 
-        drawBase(property.getName(), x, y, width, expanded ? expandedHeight : height);
+        drawBase(property.getName(), x, y, width, expanded ? expandedHeight : height, true);
 
-        expandedHeight = (int) (height * (Arrays.stream(property.getValues()).count()));
+        expandedHeight = (int) (12 * (Arrays.stream(property.getValues()).count()));
 
         int tWidth = mc.fontRendererObj.getStringWidth(property.getValue() + "+");
         int tY = y + (height / 2) - ((mc.fontRendererObj.FONT_HEIGHT) / 2);
@@ -73,6 +73,6 @@ public class ModePanel extends PanelProperty {
     }
 
     public int getHeight() {
-        return expanded ? expandedHeight : height;
+        return expanded ? expandedHeight : 12;
     }
 }

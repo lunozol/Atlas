@@ -24,7 +24,7 @@ public class BooleanPanel extends PanelProperty {
     public void draw(float mouseX, float mouseY, int x, int y, int width, int height) {
         anim.run(property.isEnabled() ? 1 : 0);
 
-        drawBase(property.getName(), x, y, width, height);
+        drawBase(property.getName(), x, y, width, height, true);
 
         int toggleDimensionsBG = height - (padding * 2);
         int buttonBgX = x + width - toggleDimensionsBG - padding;
@@ -43,5 +43,10 @@ public class BooleanPanel extends PanelProperty {
     @Override
     public boolean isHidden() {
         return property.isHidden();
+    }
+
+    @Override
+    public int getHeight() {
+        return 12;
     }
 }
