@@ -55,7 +55,7 @@ public abstract class Entry implements Constants {
 
         for (Entity entity : mc.theWorld.getLoadedEntityList()) {
             if (entity instanceof EntityPlayer && BotCheckUtil.checkPlayer(entity) && playerListEntries.stream().noneMatch(p -> p.getEntityPlayer().equals(entity))) {
-                playerListEntries.add(new PlayerListEntry((EntityPlayer) entity));
+                playerListEntries.add(new PlayerListEntry((EntityPlayer) entity, 0.8f));
             }
         }
 

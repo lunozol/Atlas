@@ -10,6 +10,8 @@ import io.lunozol.atlas.system.features.widget.Widget;
 import io.lunozol.atlas.utils.render.RenderUtils;
 import org.lwjgl.input.Mouse;
 
+import java.awt.*;
+
 public class PlayerListWidget extends Widget {
     private int x = 4;
     private int y = 30;
@@ -37,7 +39,9 @@ public class PlayerListWidget extends Widget {
 
     @Listen
     public void onRender2D(Render2DEvent event) {
-        int yD = y;
+        RenderUtils.rect(x, y, width, height, bg);
+
+        int yD = y + height;
         for (PlayerListEntry entry : Entry.getPlayerListEntries()) {
             entry.setY(yD);
             entry.setX(x);
